@@ -119,19 +119,16 @@
         <div class="cap"><span>agent-os.mp4 <span class="m">50 s</span></span><span>fleet · plan · logs · decision · key search · zen</span></div>
       </div>
       <div class="cmd"><span class="p">❯</span> agent-os <span class="a">--about</span></div>
-      <p class="out"><b>Agent OS</b> is a multi-agent control terminal built on <span class="c">WezTerm</span> and <span class="c">Ratatui</span>. It runs many <span class="m">Claude Code</span> and <span class="bl">Codex</span> sessions from one keyboard-driven screen. I use it daily.</p>
+      <p class="out"><b>Agent OS</b> runs many <span class="m">Claude Code</span> and <span class="bl">Codex</span> sessions from one keyboard-driven <span class="c">WezTerm</span> screen. I use it daily.</p>
 
       <div class="cmd"><span class="p">❯</span> agent-os features</div>
       <div class="rows" role="list">
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">fleet</span><span class="tx">One view of every session, with <b>sub-agent and workflow trees</b>, live <span class="c">tokens/s</span>, <span class="c">context</span>, <span class="c">CPU</span> and <span class="c">RAM</span>.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">decisions</span><span class="tx">Agents publish plans and questions through a CLI protocol into one <b>Decision inbox</b>, with options, a <span class="g">recommended</span> answer and notes. <span class="y">Dangerous tool calls</span> wait for approval.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">viewer</span><span class="tx">The session viewer has <b>Plan</b>, <b>Logs</b>, <b>Changes</b> and <b>Docs</b>. The usage ledger counts each response once. Cross-agent verification has Claude grade Codex, and Codex grade Claude.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">plugins</span><span class="tx">An Agent OS <span class="m">Claude Code plugin</span>, a WezTerm <b>workspace manager</b> with session restore, and <span class="c">Jev</span> prompt review (<code>Alt+G</code>) and compaction.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">configs</span><span class="tx">One installer merges <b>Claude Code and Codex</b> settings, hooks and permissions, and backs up every file it changes.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">lean</span><span class="tx">Core contracts are verified in <b>Lean 4</b>: <span class="m">57</span> kernel-checked theorems, with no <code>sorry</code>. The plan proof caught a <span class="r">real acknowledgement bug</span>, which is now fixed with an end-to-end regression test. <a href="#lean">2:lean-verify</a></span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">platforms</span><span class="tx">Runs on Linux, macOS, native Windows 11 and WSL2.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">fleet</span><span class="tx">Tracks every session: sub-agents, <span class="c">tokens/s</span>, context, CPU and RAM.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">decisions</span><span class="tx">Gathers agent plans and questions in one <b>inbox</b>; holds <span class="y">dangerous tool calls</span> for approval.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">plugins</span><span class="tx">Ships a <span class="m">Claude Code plugin</span>, a workspace manager, <span class="c">Jev</span> prompt review and one config installer.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">lean</span><span class="tx">Proves core contracts in <b>Lean 4</b>; the proofs caught a <span class="r">real bug</span>. <a href="#lean">2:lean-verify</a></span><span class="sc"></span></div>
       </div>
-      <p class="note">The sessions in the video are the repo's end-to-end test fixture (synthetic agents), so no real work is shown. The source is private.</p>
+      <p class="note">Synthetic test sessions; private source.</p>
     </section>
 
     <section class="view" id="v-lean" role="tabpanel" aria-labelledby="t-lean" hidden>
