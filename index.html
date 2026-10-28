@@ -118,9 +118,9 @@
 <div class="term">
   <header class="bar">
     <nav class="tabs" role="tablist" aria-label="Demos">
-      <button class="tab" role="tab" id="t-agent-os" aria-controls="v-agent-os" aria-selected="true"><span class="mk">●</span> 1:agent-os</button>
-      <button class="tab" role="tab" id="t-lean" aria-controls="v-lean" aria-selected="false"><span class="mk">○</span> 2:lean-verify <span class="soon">◆</span></button>
-      <button class="tab" role="tab" id="t-trading" aria-controls="v-trading" aria-selected="false"><span class="mk">○</span> 3:hyperliquid-terminal</button>
+      <button class="tab" role="tab" id="t-agent-os" aria-controls="v-agent-os" aria-selected="true"><span class="mk">●</span> 1:Agent OS</button>
+      <button class="tab" role="tab" id="t-lean" aria-controls="v-lean" aria-selected="false"><span class="mk">○</span> 2:Lean Verify <span class="soon">◆</span></button>
+      <button class="tab" role="tab" id="t-trading" aria-controls="v-trading" aria-selected="false"><span class="mk">○</span> 3:HL Terminal</button>
     </nav>
   </header>
 
@@ -145,7 +145,7 @@
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">fleet</span><span class="tx">Tracks every session: sub-agents, <span class="c">tokens/s</span>, context, CPU and RAM.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">decisions</span><span class="tx">Gathers agent plans and questions in one <b>inbox</b>; holds <span class="y">dangerous tool calls</span> for approval.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">plugins</span><span class="tx">Ships a <span class="m">Claude Code plugin</span>, <span class="c">Jev</span> prompt review and a config installer.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">lean</span><span class="tx">Proves core contracts in <b>Lean 4</b>; the proofs caught a <span class="r">real bug</span>. <a href="#lean">2:lean-verify</a></span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">lean</span><span class="tx">Proves core contracts in <b>Lean 4</b>; the proofs caught a <span class="r">real bug</span>. <a href="#lean">2:Lean Verify</a></span><span class="sc"></span></div>
       </div>
       <p class="note">The video uses synthetic test sessions; the source stays private.</p>
     </section>
@@ -290,7 +290,7 @@ function show(view,push){
     var v=document.getElementById(t.getAttribute('aria-controls')); v.hidden=!on;
     if(!on) v.querySelectorAll('video').forEach(function(x){x.pause();});
   });
-  document.title='Phil · '+({'agent-os':'Agent OS',lean:'Lean verify',trading:'Hyperliquid terminal'}[view]||view);
+  document.title='Phil · '+({'agent-os':'Agent OS',lean:'Lean Verify',trading:'HL Terminal'}[view]||view);
   if(push){ try{ history.replaceState(null,'','#'+view); }catch(e){} }
   window.scrollTo({top:0,behavior:'instant'});
 }
@@ -307,7 +307,7 @@ document.addEventListener('click',function(e){
   var id=a.getAttribute('href').slice(1); if(!document.getElementById('v-'+id)) return;
   e.preventDefault(); show(id,true);
 });
-var TABN={'agent-os':'1:agent-os',lean:'2:lean-verify',trading:'3:hyperliquid-terminal'};
+var TABN={'agent-os':'1:Agent OS',lean:'2:Lean Verify',trading:'3:HL Terminal'};
 var ITEMS=[].slice.call(document.querySelectorAll('.view .rows>.row,.view .out,.view .note,.view .cmd,.view .cap')).map(function(el){
   var id=el.querySelector&&el.querySelector('.id'), tx=el.classList.contains('row')?el.querySelector('.tx'):el;
   var body=el.classList.contains('cap')?[].map.call(el.children,function(c){return c.textContent;}).join(' · '):tx.textContent;
