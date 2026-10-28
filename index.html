@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Phil Ho Cookbook</title>
+<title>Phil Ho Projects</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%94%A8%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Video demos: Agent OS, its upcoming Lean verification pipeline, and a Hyperliquid trading terminal with a local MCP companion.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,19 +42,27 @@
   .tab[aria-selected="true"]{color:var(--fg);background:rgba(169,177,214,.10)}
   .tab .mk{color:var(--faint)} .tab[aria-selected="true"] .mk{color:var(--green)}
   .tab .soon{color:var(--yellow)}
-  .segs{display:flex;flex-wrap:wrap;margin-left:auto}
-  .seg{color:var(--seg-ink);font-weight:700;padding:3px 10px;white-space:nowrap}
+  .segs{display:flex;flex-wrap:nowrap;margin-left:auto;flex:none}
+  .seg{color:var(--seg-ink);font-weight:700;padding:3px 10px;white-space:nowrap;flex:none}
   .seg.y{background:var(--yellow)} .seg.g{background:var(--green)}
   .vimline{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;
     background:rgba(22,22,25,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-  .vimline form{display:flex;align-items:center;flex:1;min-width:0;padding:0 1ch;margin:0}
-  .vimline form[hidden],.vimline .seg[hidden]{display:none}
-  .vimline input{flex:1;min-width:0;font:inherit;color:var(--fg);background:none;border:0;outline:0;padding:3px 0}
-  .vimline .hint{color:var(--faint);padding:3px 1ch;margin-left:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
-  .vimline form:not([hidden])~.hint{display:none}
-  @media (max-width:720px){ .vimline .hint{display:none} }
-  .vimline .count{color:var(--magenta);padding-left:1ch;white-space:nowrap}
-  .hit{background:rgba(224,175,104,.14)} .hit.cur{background:rgba(224,175,104,.32);outline:1px solid var(--yellow)}
+  .vimline .hint{font:inherit;color:var(--faint);background:none;border:0;cursor:pointer;padding:3px 1ch;margin-left:auto;white-space:nowrap;min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .vimline .hint:hover{color:var(--fg)}
+  .flash{background:rgba(224,175,104,.28);outline:1px solid var(--yellow);transition:background .6s}
+  .fff{position:fixed;inset:0;z-index:20;background:rgba(10,10,12,.55);display:flex;justify-content:center;align-items:flex-start;padding:14vh 16px 0}
+  .fff[hidden]{display:none}
+  .fff .box{width:min(92ch,100%);background:rgba(22,22,25,.97);border:1px solid var(--rule);box-shadow:0 0 0 1px rgba(122,162,247,.25)}
+  .fff .in{display:flex;align-items:center;gap:1ch;padding:8px 1.5ch;border-bottom:1px solid var(--rule)}
+  .fff input{flex:1;min-width:0;font:inherit;color:var(--fg);background:none;border:0;outline:0}
+  .fff .n{color:var(--magenta);white-space:nowrap}
+  .fff ul{list-style:none;margin:0;padding:4px 0;max-height:min(52vh,420px);overflow:auto}
+  .fff li{display:grid;grid-template-columns:2ch 22ch minmax(0,1fr);gap:1ch;padding:3px 1.5ch;cursor:pointer;white-space:nowrap}
+  .fff li .w{color:var(--faint)} .fff li .t{overflow:hidden;text-overflow:ellipsis;color:var(--dim)}
+  .fff li.on{background:rgba(122,162,247,.14)} .fff li.on .w{color:var(--green)} .fff li.on .t{color:var(--fg)}
+  .fff li b{color:var(--yellow);font-weight:700}
+  .fff .ft{color:var(--faint);padding:6px 1.5ch;border-top:1px solid var(--rule);font-size:.86em}
+  @media (max-width:720px){ .fff li{grid-template-columns:2ch minmax(0,1fr)} .fff li .w{display:none} }
 
   main{flex:1;padding:22px 16px 64px}
   .view{max-width:108ch;margin:0 auto}
@@ -98,7 +106,6 @@
   .meter i{display:block;height:100%;background:var(--yellow)}
   .meter.ok i{background:var(--green)}
 
-    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:8px 16px 10px;border-top:1px solid var(--rule)}
 
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
   @media print{
@@ -113,7 +120,7 @@
     <nav class="tabs" role="tablist" aria-label="Demos">
       <button class="tab" role="tab" id="t-agent-os" aria-controls="v-agent-os" aria-selected="true"><span class="mk">●</span> 1:agent-os</button>
       <button class="tab" role="tab" id="t-lean" aria-controls="v-lean" aria-selected="false"><span class="mk">○</span> 2:lean-verify <span class="soon">◆</span></button>
-      <button class="tab" role="tab" id="t-trading" aria-controls="v-trading" aria-selected="false"><span class="mk">○</span> 3:trading-terminal</button>
+      <button class="tab" role="tab" id="t-trading" aria-controls="v-trading" aria-selected="false"><span class="mk">○</span> 3:hyperliquid-terminal</button>
     </nav>
   </header>
 
@@ -178,10 +185,6 @@
         <div class="row" role="listitem"><span class="y">~</span><span class="id">billing</span><span class="tx">Whether model rates match each provider's real billing.<span class="sub">graders only; no ground truth</span></span><span class="sc"><span class="meter"><i style="width:55%"></i></span><span class="y">0.55</span></span></div>
       </div>
 
-      <div class="clip" style="margin-top:22px">
-        <video src="media/lean-verify.mp4" poster="media/lean-verify-poster.jpg" controls muted loop playsinline preload="metadata"></video>
-        <div class="cap"><span>lean-verify.mp4 <span class="m">42 s</span></span><span>pass · <code>sorry</code> refused · custom axiom refused · source hash gate</span></div>
-      </div>
       <div class="cmd"><span class="p">❯</span> verify lean <span class="a">--rules</span></div>
       <div class="rows" role="list">
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">passes</span><span class="tx">The kernel accepts the file, and every theorem depends only on <code>propext</code>, <code>Quot.sound</code> or <code>Classical.choice</code>.</span><span class="sc"></span></div>
@@ -194,21 +197,17 @@
 
     <section class="view" id="v-trading" role="tabpanel" aria-labelledby="t-trading" hidden>
       <div class="clip">
-        <video src="media/trading-terminal.mp4" poster="media/trading-terminal-poster.jpg" controls muted loop playsinline preload="metadata"></video>
-        <div class="cap"><span>trading-terminal.mp4 <span class="m">41 s</span></span><span>markets · hotkeys · function search · chart coach · settings</span></div>
+        <video src="media/hyperliquid-terminal.mp4" poster="media/hyperliquid-terminal-poster.jpg" controls muted loop playsinline preload="metadata"></video>
+        <div class="cap"><span>hyperliquid-terminal.mp4 <span class="m">68 s</span></span><span>live account · hotkeys · regex search · pro tickets · TP/SL · MCP</span></div>
       </div>
-      <div class="cmd"><span class="p">❯</span> trading-terminal <span class="a">--about</span></div>
-      <p class="out">A keyboard-first <b>Hyperliquid perps</b> trading terminal: a static <span class="c">Svelte 5</span> app on <span class="c">Cloudflare Workers</span> that talks to the exchange over <b>one WebSocket</b>, with no backend.</p>
+      <div class="cmd"><span class="p">❯</span> hyperliquid-terminal <span class="a">--about</span></div>
+      <p class="out">A <b>Hyperliquid perps</b> terminal with a <span class="g">blazing-fast</span> live connection, <b>hotkey-powered execution</b> and a <span class="c">local AI companion</span>.</p>
       <div class="rows" role="list">
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">hotkeys</span><span class="tx">Executes <b>market</b>, <b>limit</b>, <b>scale</b>, <b>chase</b>, <b>stop/take</b> and <b>TP/SL</b> orders from hotkeys. Every load starts <span class="y">disarmed</span>; <code>`</code> arms the keys, and orders queue per coin in press order.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">ai mcp</span><span class="tx">Any <span class="c">MCP</span> client (<span class="m">Claude Code</span>, <span class="bl">Codex</span> and others) reads the chart, draws levels, coaches and stages tickets <span class="g">you send yourself</span>. Demo below.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">ai mcp</span><span class="tx">Any <span class="c">MCP</span> client (<span class="m">Claude Code</span>, <span class="bl">Codex</span> and others) reads the chart, draws levels, coaches and stages tickets <span class="g">you send yourself</span>.</span><span class="sc"></span></div>
       </div>
 
-      <div class="cmd"><span class="p">❯</span> trading-terminal mcp <span class="a">--client any</span></div>
-      <div class="clip">
-        <video src="media/trading-mcp.mp4" poster="media/trading-mcp-poster.jpg" controls muted loop playsinline preload="metadata"></video>
-        <div class="cap"><span>trading-mcp.mp4 <span class="m">56 s</span></span><span>pair · chart context · market · candles · marks · advice · staged ticket</span></div>
-      </div>
+      <div class="cmd"><span class="p">❯</span> hyperliquid-terminal mcp <span class="a">--client any</span></div>
       <div class="rows" role="list">
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">clients</span><span class="tx"><span class="m">Claude Code</span>, <span class="bl">Codex</span> or <b>any MCP client</b>, running locally over stdio.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">reads</span><span class="tx">Chart, market, candles, order flow and account.</span><span class="sc"></span></div>
@@ -218,7 +217,9 @@
     </section>
   </main>
 
-  <div class="vimline"><span class="seg y" id="mode" title="Work in progress">:build</span><form id="find" role="search" hidden><span class="p">/</span><input id="q" aria-label="Search all tabs" autocomplete="off" spellcheck="false"><span class="count" id="count"></span></form><span class="hint" id="hint">1–3 tabs · / search · n N next · ? ask Gemini</span><span class="segs"><span class="seg g">Phil Ho</span><span class="seg y">© 2026</span></span></div>
+  <div class="vimline"><span class="seg y" id="mode" title="Work in progress">:build</span><button class="hint" id="hint" type="button">1–3 tabs · / search</button><span class="segs"><span class="seg g">Phil Ho</span><span class="seg y">© 2026</span></span></div>
+
+  <div class="fff" id="fff" hidden><div class="box" role="dialog" aria-label="Search"><div class="in"><span class="p">❯</span><input id="q" placeholder="fuzzy search every tab" autocomplete="off" spellcheck="false" aria-label="Fuzzy search"><span class="n" id="count"></span></div><ul id="res" role="listbox"></ul><div class="ft">↑↓ or ^n ^p move · Enter jump · Esc close</div></div></div>
 
 </div>
 
@@ -234,14 +235,14 @@ var NODES=[
   {id:'tests',x:370,y:195,t:'observed tests',k:'e2e + corpus',g:'~',c:'y',d:'Deterministic checks run in scratch workspaces: the ledger corpus oracle, the plan restart/resume flow and the docs-mode flow. These are observed results, not proofs.'},
   {id:'graders',x:550,y:195,t:'cross-agent',k:'Claude ⇄ Codex',g:'~',c:'y',d:'Opposite-harness graders score each rubric criterion blind. Missing, skipped and uncertain assessments stay in the denominator.'},
   {id:'score',x:720,y:195,t:'calibration',k:'vs golden labels',g:'~',c:'y',d:'Calibration checks grader agreement against labelled golden outcomes, so a confident judge that is often wrong scores lower.'},
-  {id:'confidence',x:875,y:195,w:120,t:'CONFIDENCE',k:'0.00–1.00',g:'◆',c:'y',d:'Upcoming: one confidence score per contract that Lean cannot prove, combining observed tests, graders and calibration. The scores shown below are illustrative.'}
+  {id:'confidence',x:875,y:195,w:120,t:'CONFIDENCE',k:'0.00–1.00',g:'◆',c:'y',d:'Upcoming: one confidence score per contract that Lean cannot prove, combining observed tests, graders and calibration. The table below uses placeholder scores until the scorer ships.'}
 ];
 var AOS_NODES=[
   {id:'agents',x:20,y:50,t:'agents',k:'Claude Code · Codex',g:'›',c:'m',d:'Runs Claude Code and Codex sessions side by side and draws sub-agents and workflows as trees.'},
-  {id:'config',x:20,y:195,t:'configs',k:'plugin · Jev · setup',g:'›',c:'c',d:'Installs the Agent OS plugin, Jev prompt review and merged Claude Code and Codex settings, backing up every file it changes.'},
+  {id:'config',x:20,y:195,w:155,t:'configs',k:'plugin · Jev · setup',g:'›',c:'c',d:'Installs the Agent OS plugin, Jev prompt review and merged Claude Code and Codex settings, backing up every file it changes.'},
   {id:'hooks',x:215,y:50,t:'hooks',k:'tool events',g:'!',c:'y',d:'Reports every tool event and holds dangerous calls until you approve them.'},
   {id:'cli',x:215,y:195,t:'CLI protocol',k:'plan · doc · ask',g:'›',c:'c',d:'Lets agents publish plans and documents and ask you questions.'},
-  {id:'hub',x:410,y:120,t:'hub',k:'state · usage ledger',g:'◆',c:'bl',d:'Keeps sessions, plans and documents, and counts each response once in the usage ledger.'},
+  {id:'hub',x:405,y:120,w:165,t:'hub',k:'state · usage ledger',g:'◆',c:'bl',d:'Keeps sessions, plans and documents, and counts each response once in the usage ledger.'},
   {id:'fleet',x:605,y:20,t:'fleet',k:'tokens/s · context',g:'✓',c:'g',d:'Shows every session with tokens/s, context, CPU and RAM. Open one to read its plan, logs, changes and docs.'},
   {id:'inbox',x:605,y:120,t:'decision inbox',k:'options · approvals',g:'!',c:'y',d:'Collects questions with options and a recommended answer, plus held tool calls.'},
   {id:'verify',x:605,y:220,t:'verify',k:'Lean 4 · cross-agent',g:'✓',c:'g',d:'Proves core contracts in Lean 4 and has Claude grade Codex and Codex grade Claude. See 2:lean-verify.'},
@@ -249,6 +250,7 @@ var AOS_NODES=[
 ];
 var AOS_EDGES=[['agents','hooks','ok'],['agents','cli','ok'],['config','hooks',''],['config','cli',''],['hooks','hub','cf'],['cli','hub','ok'],
   ['hub','fleet','ok'],['hub','inbox','cf'],['hub','verify','ok'],['fleet','you','ok'],['inbox','you','cf'],['verify','you','ok']];
+var GRAPH_ITEMS=[];
 function graph(svgId,detId,nodes,edges,marker){
   var svg=document.getElementById(svgId), ns='http://www.w3.org/2000/svg', det=document.getElementById(detId), by={};
   var COL={g:'#9ece6a',y:'#e0af68',m:'#bb9af7',bl:'#7aa2f7',c:'#7dcfff'};
@@ -272,6 +274,7 @@ function graph(svgId,detId,nodes,edges,marker){
     el('text',{x:n.x+10,y:n.y+45,'class':'k'},g).textContent=n.k;
     g.addEventListener('click',function(){pick(n,g);});
     g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(n,g);}});
+    GRAPH_ITEMS.push({el:g,label:n.t,text:n.t+' · '+n.k+' · '+n.d,go:function(){pick(n,g);}});
     if(i===0) pick(n,g);
   });
 }
@@ -287,6 +290,7 @@ function show(view,push){
     var v=document.getElementById(t.getAttribute('aria-controls')); v.hidden=!on;
     if(!on) v.querySelectorAll('video').forEach(function(x){x.pause();});
   });
+  document.title='Phil Ho Projects · '+({'agent-os':'Agent OS',lean:'Lean verify',trading:'Hyperliquid terminal'}[view]||view);
   if(push){ try{ history.replaceState(null,'','#'+view); }catch(e){} }
   window.scrollTo({top:0,behavior:'instant'});
 }
@@ -303,44 +307,57 @@ document.addEventListener('click',function(e){
   var id=a.getAttribute('href').slice(1); if(!document.getElementById('v-'+id)) return;
   e.preventDefault(); show(id,true);
 });
-var CANDS=[].slice.call(document.querySelectorAll('.view .tx,.view .out,.view .note,.view .cmd,.view .cap'));
-var findEl=document.getElementById('find'), q=document.getElementById('q'), countEl=document.getElementById('count'), mode=document.getElementById('mode'), hint=document.getElementById('hint'), hits=[], hi=-1;
-function search(text){
-  hits.forEach(function(x){x.classList.remove('hit','cur');});
-  text=text.trim().toLowerCase(); hi=-1;
-  hits=text?CANDS.filter(function(x){return x.textContent.toLowerCase().indexOf(text)>=0;}):[];
-  hits.forEach(function(x){x.classList.add('hit');});
-  countEl.textContent=text&&!hits.length?'no match':'';
-  if(hits.length) jump(1);
+var TABN={'agent-os':'1:agent-os',lean:'2:lean-verify',trading:'3:hyperliquid-terminal'};
+var ITEMS=[].slice.call(document.querySelectorAll('.view .rows>.row,.view .out,.view .note,.view .cmd,.view .cap')).map(function(el){
+  var id=el.querySelector&&el.querySelector('.id'), tx=el.classList.contains('row')?el.querySelector('.tx'):el;
+  var body=el.classList.contains('cap')?[].map.call(el.children,function(c){return c.textContent;}).join(' · '):tx.textContent;
+  return {el:tx,label:id?id.textContent:'',text:((id?id.textContent+' · ':'')+body).replace(/\s+/g,' ').trim()};
+}).concat(GRAPH_ITEMS).map(function(it){ it.view=it.el.closest('.view').id.slice(2); it.low=it.text.toLowerCase(); return it; });
+function fuzzy(t,q){
+  var at=t.indexOf(q), pos=[], i, j=0, sc=0, last=-2;
+  if(at>=0){ for(i=0;i<q.length;i++) pos.push(at+i); return {pos:pos,score:100+q.length*8-at*0.05-(at===0||/\W/.test(t[at-1])?0:10)}; }
+  for(i=0;i<t.length&&j<q.length;i++){ if(t[i]!==q[j]) continue;
+    sc+=i===last+1?6:(i===0||/[\W_]/.test(t[i-1]))?4:-Math.min(3,(i-last)/6); pos.push(i); last=i; j++; }
+  return j===q.length&&pos[pos.length-1]-pos[0]<=q.length*6?{pos:pos,score:sc-t.length*0.01}:null;
 }
-function jump(d){
-  if(!hits.length) return;
-  if(hits[hi]) hits[hi].classList.remove('cur');
-  hi=(hi+d+hits.length)%hits.length;
-  var x=hits[hi]; x.classList.add('cur');
-  var v=x.closest('.view').id.slice(2); if(document.getElementById('v-'+v).hidden) show(v,true);
-  x.scrollIntoView({block:'center',behavior:'instant'});
-  countEl.textContent=(hi+1)+'/'+hits.length;
+function esc(c){ return c==='<'?'&lt;':c==='>'?'&gt;':c==='&'?'&amp;':c; }
+function mark(t,pos){
+  var from=Math.max(0,(pos[0]||0)-24), to=Math.min(t.length,from+110), set={}, out=from?'…':'';
+  pos.forEach(function(p){set[p]=1;});
+  for(var i=from;i<to;i++) out+=set[i]?'<b>'+esc(t[i])+'</b>':esc(t[i]);
+  return out+(to<t.length?'…':'');
 }
-function openFind(){ mode.hidden=true; findEl.hidden=false; q.value=''; search(''); q.focus(); }
-function closeFind(){ search(''); findEl.hidden=true; mode.hidden=false; q.blur(); }
-var ASK='Explain this web page in plain words: '+location.origin+location.pathname+' . What are Agent OS, its Lean verification pipeline and the Hyperliquid trading terminal, and what does each demo show?';
-function askGemini(){
-  window.open('https://gemini.google.com/app','_blank','noopener');
-  var done=function(ok){ hint.textContent=ok?'prompt copied · paste into Gemini':'paste into Gemini: '+ASK; setTimeout(function(){ hint.textContent='1–3 tabs · / search · n N next · ? ask Gemini'; },8000); };
-  try{ navigator.clipboard.writeText(ASK).then(function(){done(true);},function(){done(false);}); }catch(e){ done(false); }
+var fff=document.getElementById('fff'), q=document.getElementById('q'), res=document.getElementById('res'), countEl=document.getElementById('count'), found=[], sel=0;
+function render(){
+  var v=q.value.trim().toLowerCase();
+  found=v?ITEMS.map(function(it){var m=fuzzy(it.low,v);return m&&{it:it,m:m};}).filter(Boolean).sort(function(a,b){return b.m.score-a.m.score;}).slice(0,40):[];
+  sel=0; countEl.textContent=v?found.length+(found.length===40?'+':''):'';
+  res.innerHTML=found.map(function(f,i){return '<li role="option" data-i="'+i+'"'+(i?'':' class="on" aria-selected="true"')+'><span class="g">'+(i?' ':'›')+'</span><span class="w">'+TABN[f.it.view]+'</span><span class="t">'+mark(f.it.text,f.m.pos)+'</span></li>';}).join('');
 }
-q.addEventListener('input',function(){ search(q.value); });
-findEl.addEventListener('submit',function(e){ e.preventDefault(); q.blur(); if(!q.value.trim()) closeFind(); });
-q.addEventListener('keydown',function(e){ if(e.key==='Escape'){ e.preventDefault(); closeFind(); } });
+function move(d){ if(!found.length) return; var li=res.children; li[sel].classList.remove('on'); li[sel].firstChild.textContent=' ';
+  sel=(sel+d+found.length)%found.length; li[sel].classList.add('on'); li[sel].firstChild.textContent='›'; li[sel].scrollIntoView({block:'nearest'}); }
+function go(i){
+  var f=found[i]; if(!f) return; closeFff(); show(f.it.view,true); if(f.it.go) f.it.go();
+  var el=f.it.el; el.scrollIntoView({block:'center',behavior:'instant'}); el.classList.add('flash'); setTimeout(function(){el.classList.remove('flash');},1600);
+}
+function openFff(){ fff.hidden=false; q.value=''; render(); q.focus(); }
+function closeFff(){ fff.hidden=true; q.blur(); }
+q.addEventListener('input',render);
+q.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){ e.preventDefault(); closeFff(); }
+  else if(e.key==='ArrowDown'||(e.ctrlKey&&e.key==='n')){ e.preventDefault(); move(1); }
+  else if(e.key==='ArrowUp'||(e.ctrlKey&&e.key==='p')){ e.preventDefault(); move(-1); }
+  else if(e.key==='Enter'){ e.preventDefault(); go(sel); }
+});
+res.addEventListener('click',function(e){ var li=e.target.closest('li'); if(li) go(+li.dataset.i); });
+fff.addEventListener('mousedown',function(e){ if(e.target===fff) closeFff(); });
+document.getElementById('hint').addEventListener('click',openFff);
 document.addEventListener('keydown',function(e){
+  if(!fff.hidden){ if(e.key==='Escape') closeFff(); else if(e.key==='/'){ e.preventDefault(); q.focus(); } return; }
   if(e.target.closest('input,select,textarea')||e.metaKey||e.ctrlKey||e.altKey) return;
   var k=parseInt(e.key,10);
   if(k>=1&&k<=tabs.length){ show(viewOf(tabs[k-1]),true); return; }
-  if(e.key==='/'){ e.preventDefault(); openFind(); return; }
-  if(e.key==='?'){ e.preventDefault(); askGemini(); return; }
-  if(e.key==='n'||e.key==='N'){ if(hits.length){ e.preventDefault(); jump(e.key==='n'?1:-1); } return; }
-  if(e.key==='Escape'&&!findEl.hidden) closeFind();
+  if(e.key==='/'){ e.preventDefault(); openFff(); }
 });
 window.addEventListener('hashchange',function(){ var h=fromHash(); if(h) show(h,false); });
 show(fromHash()||'agent-os',false);
