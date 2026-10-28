@@ -192,21 +192,20 @@
       <p class="out">A keyboard-first <b>Hyperliquid perps</b> trading terminal. It is a static <span class="c">Svelte 5</span> app on <span class="c">Cloudflare Workers</span> that talks to the exchange over <b>one WebSocket</b>, with no backend.</p>
       <div class="rows" role="list">
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">hotkeys</span><span class="tx">Hotkey execution for <b>market</b>, <b>limit</b>, <b>scale</b>, <b>chase</b>, <b>stop/take</b> and <b>TP/SL</b> orders. Every load starts <span class="y">disarmed</span>; <code>`</code> arms the keys, and orders queue per coin in press order.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">ai mcp</span><span class="tx">A local <span class="c">MCP</span> server lets <span class="m">Claude Code</span> and <span class="bl">Codex</span> read the chart and market, draw levels, post coaching advice and stage tickets that <span class="g">you send yourself</span>. Demo below.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">ai mcp</span><span class="tx">Any <span class="c">MCP</span> client (<span class="m">Claude Code</span>, <span class="bl">Codex</span> and others) reads the chart, draws levels, coaches and stages tickets <span class="g">you send yourself</span>. Demo below.</span><span class="sc"></span></div>
       </div>
 
-      <div class="cmd"><span class="p">❯</span> trading-terminal mcp <span class="a">--client claude-code</span></div>
+      <div class="cmd"><span class="p">❯</span> trading-terminal mcp <span class="a">--client any</span></div>
       <div class="clip">
         <video src="media/trading-mcp.mp4" poster="media/trading-mcp-poster.jpg" controls muted loop playsinline preload="metadata"></video>
         <div class="cap"><span>trading-mcp.mp4 <span class="m">56 s</span></span><span>pair · chart context · market · candles · marks · advice · staged ticket</span></div>
       </div>
       <div class="rows" role="list">
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">local</span><span class="tx">A <span class="c">stdio MCP</span> server on your computer for <span class="m">Claude Code</span> and <span class="bl">Codex</span>. It pairs with the browser through a single-use code, and its data stays in a local SQLite file.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">reads</span><span class="tx"><code>chart_context</code>, <code>market</code>, <code>candles</code>, <code>flow</code> and <code>account</code> read the shared chart and public Hyperliquid data.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">writes</span><span class="tx"><code>mark</code> draws levels and zones on the chart, <code>record_observation</code> posts coaching advice, and <code>suggest</code> stages a ticket with entry, TP and SL.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">safe</span><span class="tx">It <span class="g">cannot place an order</span>. It holds no trading key and never calls <code>/exchange</code>; every ticket is one you review and send yourself.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">clients</span><span class="tx"><span class="m">Claude Code</span>, <span class="bl">Codex</span> or <b>any MCP client</b>, running locally over stdio.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">reads</span><span class="tx">Chart, market, candles, order flow and account.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">writes</span><span class="tx">Chart marks, coaching advice and staged tickets.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">safe</span><span class="tx">No trading key. It <span class="g">cannot place orders</span>; you send every ticket.</span><span class="sc"></span></div>
       </div>
-      <p class="note">Recorded against a live Hyperliquid market with no wallet connected. The MCP calls are scripted as a Claude Code session would make them, against a throwaway local workspace. The levels come from the real candles.</p>
     </section>
   </main>
 
