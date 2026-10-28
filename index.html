@@ -217,7 +217,7 @@
     </section>
   </main>
 
-  <div class="vimline"><span class="seg y" id="mode" title="Work in progress">:build</span><button class="hint" id="hint" type="button">1–3 tabs · / search</button><span class="segs"><span class="seg g">Phil Ho</span><span class="seg y">© 2026</span></span></div>
+  <div class="vimline"><span class="seg y" id="mode" title="Work in progress">:build</span><button class="hint" id="hint" type="button">1–3 tabs · j/k d/u {} gg/G · / search</button><span class="segs"><span class="seg g">Phil Ho</span><span class="seg y">© 2026</span></span></div>
 
   <div class="fff" id="fff" hidden><div class="box" role="dialog" aria-label="Search"><div class="in"><span class="p">❯</span><input id="q" placeholder="fuzzy search every tab" autocomplete="off" spellcheck="false" aria-label="Fuzzy search"><span class="n" id="count"></span></div><ul id="res" role="listbox"></ul><div class="ft">↑↓ or ^n ^p move · Enter jump · Esc close</div></div></div>
 
@@ -357,8 +357,32 @@ document.addEventListener('keydown',function(e){
   if(e.target.closest('input,select,textarea')||e.metaKey||e.ctrlKey||e.altKey) return;
   var k=parseInt(e.key,10);
   if(k>=1&&k<=tabs.length){ show(viewOf(tabs[k-1]),true); return; }
-  if(e.key==='/'){ e.preventDefault(); openFff(); }
+  if(e.key==='/'){ e.preventDefault(); openFff(); return; }
+  var h=innerHeight;
+  switch(e.key){
+    case 'j': scrollBy({top:60,behavior:'instant'}); break;
+    case 'k': scrollBy({top:-60,behavior:'instant'}); break;
+    case 'd': scrollBy({top:h/2,behavior:'smooth'}); break;
+    case 'u': scrollBy({top:-h/2,behavior:'smooth'}); break;
+    case '}': para(1); break;
+    case '{': para(-1); break;
+    case 'G': scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); break;
+    case 'g': if(e.timeStamp-gAt<500){ scrollTo({top:0,behavior:'smooth'}); gAt=-1e9; } else gAt=e.timeStamp; break;
+    default: return;
+  }
+  e.preventDefault();
 });
+var gAt=-1e9;
+function para(d){
+  var top=document.querySelector('.bar').offsetHeight+8;
+  var bs=[].slice.call(document.querySelectorAll('.view:not([hidden]) :is(.clip,.graph,.cmd)'));
+  if(d<0) bs.reverse();
+  for(var i=0;i<bs.length;i++){
+    var y=bs[i].getBoundingClientRect().top-top;
+    if(d>0?y>2:y<-2) return scrollBy({top:y,behavior:'smooth'});
+  }
+  scrollTo({top:d>0?document.documentElement.scrollHeight:0,behavior:'smooth'});
+}
 window.addEventListener('hashchange',function(){ var h=fromHash(); if(h) show(h,false); });
 show(fromHash()||'agent-os',false);
 
