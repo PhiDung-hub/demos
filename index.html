@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Phil Ho Projects</title>
+<title>Phil * Agent OS</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%94%A8%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Video demos: Agent OS, its upcoming Lean verification pipeline, and a Hyperliquid trading terminal with a local MCP companion.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -290,7 +290,7 @@ function show(view,push){
     var v=document.getElementById(t.getAttribute('aria-controls')); v.hidden=!on;
     if(!on) v.querySelectorAll('video').forEach(function(x){x.pause();});
   });
-  document.title='Phil Ho Projects · '+({'agent-os':'Agent OS',lean:'Lean verify',trading:'Hyperliquid terminal'}[view]||view);
+  document.title='Phil * '+({'agent-os':'Agent OS',lean:'Lean verify',trading:'Hyperliquid terminal'}[view]||view);
   if(push){ try{ history.replaceState(null,'','#'+view); }catch(e){} }
   window.scrollTo({top:0,behavior:'instant'});
 }
