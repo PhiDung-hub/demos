@@ -1,4 +1,4 @@
-# Phil Ho Projects
+# Agent OS · Lean Verify · HL Terminal
 
 **Open it here: https://phidung-hub.github.io/demos/** (keys 1–3 switch tabs, `/` searches).
 
