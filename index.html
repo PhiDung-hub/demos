@@ -191,10 +191,8 @@
       <div class="cmd"><span class="p">❯</span> trading-terminal <span class="a">--about</span></div>
       <p class="out">A keyboard-first <b>Hyperliquid perps</b> trading terminal. It is a static <span class="c">Svelte 5</span> app on <span class="c">Cloudflare Workers</span> that talks to the exchange over <b>one WebSocket</b>, with no backend.</p>
       <div class="rows" role="list">
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">execution</span><span class="tx"><b>Market</b>, <b>limit</b>, <b>scale</b>, <b>chase</b>, <b>stop/take</b> and <b>TP/SL</b> tickets, across perps, HIP-3 and spot markets.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">hotkeys</span><span class="tx">Every load starts <span class="y">disarmed</span>. Order keys need <code>`</code> to arm and queue per coin in press order. The function search takes a <span class="c">regex</span>.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">keys</span><span class="tx">Trades through a browser-held <b>agent key</b> that can place and cancel orders but <span class="g">cannot withdraw</span>.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">rate limit</span><span class="tx">Market lists, candles and fills are cached locally, which cut a warm reload from <span class="r">348</span> to <span class="g">20</span> units of the per-IP rate-limit budget.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">hotkeys</span><span class="tx">Hotkey execution for <b>market</b>, <b>limit</b>, <b>scale</b>, <b>chase</b>, <b>stop/take</b> and <b>TP/SL</b> orders. Every load starts <span class="y">disarmed</span>; <code>`</code> arms the keys, and orders queue per coin in press order.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">ai mcp</span><span class="tx">A local <span class="c">MCP</span> server lets <span class="m">Claude Code</span> and <span class="bl">Codex</span> read the chart and market, draw levels, post coaching advice and stage tickets that <span class="g">you send yourself</span>. Demo below.</span><span class="sc"></span></div>
       </div>
 
       <div class="cmd"><span class="p">❯</span> trading-terminal mcp <span class="a">--client claude-code</span></div>
