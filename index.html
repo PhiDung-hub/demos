@@ -179,6 +179,7 @@
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">plan</span><span class="tx">Agent OS acknowledges a live plan only when every parent and child step finishes. <span class="r">This proof caught a real bug.</span></span><span class="sc g">proved · <span class="m">5</span></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">documents</span><span class="tx">Another session cannot update a stamped document; escaped text cannot open an HTML tag.</span><span class="sc g">proved · <span class="m">9</span></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">render cache</span><span class="tx">A hit reuses the exact output, retained bytes stay bounded, and selection and zoom skip Chrome and full decodes.</span><span class="sc g">proved · <span class="m">32</span></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">safety</span><span class="tx">Cleanup stays strictly inside its allowed root; a stale or closed session cannot authorize recovery; one failure gets at most one recovery attempt; drafts are never pasted over.</span><span class="sc g">proved · <span class="m">47</span></span></div>
         <div class="row" role="listitem"><span class="y">~</span><span class="id">parsers</span><span class="tx">JSON and UTF-8 transcript parsing.<span class="sub">ledger corpus oracle test + graders</span></span><span class="sc"><span class="meter"><i style="width:90%"></i></span><span class="y">0.90</span></span></div>
         <div class="row" role="listitem"><span class="y">~</span><span class="id">io</span><span class="tx">Locks, atomic writes, and restart and resume.<span class="sub">plan restart/resume e2e flow + graders</span></span><span class="sc"><span class="meter"><i style="width:84%"></i></span><span class="y">0.84</span></span></div>
         <div class="row" role="listitem"><span class="y">~</span><span class="id">rendering</span><span class="tx">Chrome and Mermaid output and screenshot resolution.<span class="sub">docs-mode e2e flow + graders</span></span><span class="sc"><span class="meter"><i style="width:72%"></i></span><span class="y">0.72</span></span></div>
@@ -192,6 +193,15 @@
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">sandbox</span><span class="tx">Runs in a copied workspace with a private home, a <span class="m">30 s</span> limit and bounded output. It installs nothing automatically.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">correspondence</span><span class="tx">The repo gate pins the <b>sha256 of every reviewed source file</b>. If a modelled file changes, the check fails until someone reviews the proof again.</span><span class="sc"></span></div>
       </div>
+      <div class="cmd"><span class="p">❯</span> dashboard/verification/workflows.sh</div>
+      <p class="out">A proof only matters if it describes the code that ships. One local gate ties the two together.</p>
+      <div class="rows" role="list">
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">contracts</span><span class="tx">All <span class="m">104</span> theorems pass, and every reviewed source file still matches its pinned <b>sha256</b>.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">negatives</span><span class="tx">Three deliberately broken safety models must <span class="r">fail</span>; the gate fails if Lean accepts one.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">flows</span><span class="tx">Integration and end-to-end flows cover accounting, plans, documents, danger holds, recovery and readers. Their safety assertions were confirmed to fail with the runtime guards bypassed.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">formal eval</span><span class="tx">Each model is checked again through the binary's own <code>verify lean</code> entry point.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="r">!</span><span class="id">plan bug</span><span class="tx">The proof showed <code>plan-ack</code> checked parent steps only. An end-to-end assertion through the real binary <span class="r">failed before the fix</span> and passes after it.</span><span class="sc"></span></div>
+      </div>
       <p class="note">Proofs cover explicit models, and source hashes guard the link to the code. They do not prove the compiler, IO or the parsers; those get confidence scores instead.</p>
     </section>
 
@@ -204,6 +214,7 @@
       <p class="out">A <b>Hyperliquid perps</b> terminal with a <span class="g">blazing-fast</span> live connection, <b>hotkey-powered execution</b> and a <span class="c">local AI companion</span>.</p>
       <div class="rows" role="list">
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">hotkeys</span><span class="tx">Executes <b>market</b>, <b>limit</b>, <b>scale</b>, <b>chase</b>, <b>stop/take</b> and <b>TP/SL</b> orders from hotkeys. Every load starts <span class="y">disarmed</span>; <code>`</code> arms the keys, and orders queue per coin in press order.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">limits</span><span class="tx">A warm reload costs <span class="m">20</span> rate-limit weight instead of <span class="m">348</span>, measured against live HL. An order whose send times out or hits a <code>429</code> stays <span class="y">unknown</span>, not failed, and is checked by its client order ID.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">ai mcp</span><span class="tx">Any <span class="c">MCP</span> client (<span class="m">Claude Code</span>, <span class="bl">Codex</span> and others) reads the chart, draws levels, coaches and stages tickets <span class="g">you send yourself</span>.</span><span class="sc"></span></div>
       </div>
 
@@ -226,12 +237,12 @@
 <script>
 
 var NODES=[
-  {id:'program',x:20,y:120,t:'program',k:'source + contracts',g:'›',c:'c',d:'The program under check. Agent OS feeds the sources and the contracts each one must keep: accounting, plans, documents and the render cache.'},
+  {id:'program',x:20,y:120,t:'program',k:'source + contracts',g:'›',c:'c',d:'The program under check. Agent OS feeds the sources and the contracts each one must keep: accounting, plans, documents, the render cache, and cleanup and recovery safety.'},
   {id:'model',x:190,y:120,t:'extract model',k:'per contract',g:'›',c:'c',d:'Each contract becomes an explicit mathematical model. Behaviour Lean cannot express, such as IO, parsers, Chrome or billing, goes down the confidence path instead.'},
   {id:'kernel',x:370,y:50,t:'Lean kernel',k:'v4.35.0 pinned',g:'✓',c:'g',d:'The pinned Lean 4.35.0 toolchain checks each model in a copied workspace with a private home, a 30 s limit and bounded output. No Mathlib and no model judge.'},
   {id:'audit',x:550,y:50,t:'axiom audit',k:'#print axioms',g:'✓',c:'g',d:'Every theorem must print a nonempty audit that uses only propext, Quot.sound or Classical.choice. The audit refuses sorry, admit, native_decide and custom axioms.'},
   {id:'hash',x:720,y:50,t:'source hash',k:'sha256 guard',g:'✓',c:'g',d:'The repo gate pins the sha256 of every reviewed source file. If a modelled file changes, the gate fails until someone reviews the proof again.'},
-  {id:'proved',x:875,y:50,w:120,t:'PROVED',k:'57 theorems',g:'✓',c:'g',d:'57 kernel-checked theorems: accounting 11, plan 5, documents 9, render cache 32. The plan proof caught a real acknowledgement bug.'},
+  {id:'proved',x:875,y:50,w:120,t:'PROVED',k:'104 theorems',g:'✓',c:'g',d:'104 kernel-checked theorems: accounting 11, plan 5, documents 9, render cache 32, safety 47. The plan proof caught a real acknowledgement bug.'},
   {id:'tests',x:370,y:195,t:'observed tests',k:'e2e + corpus',g:'~',c:'y',d:'Deterministic checks run in scratch workspaces: the ledger corpus oracle, the plan restart/resume flow and the docs-mode flow. These are observed results, not proofs.'},
   {id:'graders',x:550,y:195,t:'cross-agent',k:'Claude ⇄ Codex',g:'~',c:'y',d:'Opposite-harness graders score each rubric criterion blind. Missing, skipped and uncertain assessments stay in the denominator.'},
   {id:'score',x:720,y:195,t:'calibration',k:'vs golden labels',g:'~',c:'y',d:'Calibration checks grader agreement against labelled golden outcomes, so a confident judge that is often wrong scores lower.'},
