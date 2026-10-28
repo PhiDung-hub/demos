@@ -3,37 +3,262 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agent OS demo · Phil Ho</title>
-<meta name="description" content="Agent OS: a WezTerm and Ratatui control terminal for many Claude Code and Codex sessions.">
+<title>Phil Ho Demos</title>
+<meta name="description" content="Video demos: Agent OS, its upcoming Lean verification platform, and a Hyperliquid trading terminal.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,500;0,700;1,500&family=JetBrains+Mono:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,500;0,700;1,500&family=Fira+Code:wght@500;700&display=swap">
 <style>
-  :root { --bg: #1c1c1f; --fg: #d4d4d8; --dim: #9aa0ab; --green: #9ece6a; --cyan: #7dcfff; --blue: #7aa2f7; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 500 15px/1.6 "SauceCodePro Nerd Font", "Source Code Pro", monospace; }
-  main { max-width: 108ch; margin: 0 auto; padding: 32px 16px 48px; }
-  h1 { font-size: 1.25rem; margin: 0 0 4px; }
-  .p { color: var(--green); } .a { color: var(--cyan); }
-  .dim { color: var(--dim); }
-  video { display: block; width: 100%; height: auto; margin: 20px 0; border: 1px solid #2a2d3a; background: #000; }
-  ul { padding-left: 2ch; } li { margin: 6px 0; }
-  a { color: var(--blue); }
+  /* Phil's WezTerm: Tokyo Night on #1c1c1f, Cosmic Haze wallpaper behind a translucent window. One dark world, painted explicitly. */
+  :root{
+    --font:"SauceCodePro Nerd Font","SauceCodePro NF","Source Code Pro",ui-monospace,monospace;
+    --size:15px; --lh:1.6;
+    --bg:#1c1c1f; --fg:#d4d4d8; --dim:#9aa0ab; --faint:#6f7584;
+    --green:#9ece6a; --yellow:#e0af68; --blue:#7aa2f7; --magenta:#bb9af7; --cyan:#7dcfff;
+    --red:#f7768e; --orange:#ff9e64; --muted:#a9b1d6; --seg-ink:#1c1c1f;
+    --rule:rgba(169,177,214,.22);
+    --bg-opacity:.15; --bg-bright:.5;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:var(--size);
+    line-height:var(--lh);font-weight:500;font-variant-ligatures:none;-webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:url("bg.jpg") center/cover no-repeat;opacity:var(--bg-opacity);filter:brightness(var(--bg-bright))}
+  body.no-wall::before{display:none}
+  .term{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
+  b,strong{font-weight:700;color:var(--fg)}
+  a{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+  code{font:inherit;color:var(--cyan)}
+  .dim{color:var(--dim)} .faint{color:var(--faint)}
+  .g{color:var(--green)} .y{color:var(--yellow)} .bl{color:var(--blue)} .m{color:var(--magenta)} .c{color:var(--cyan)} .r{color:var(--red)} .o{color:var(--orange)}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+  .bar{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:stretch;
+    background:rgba(22,22,25,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .tabs{display:flex;flex-wrap:wrap;min-width:0;flex:1 1 auto}
+  .tab{font:inherit;background:none;border:0;color:var(--dim);padding:3px 12px;cursor:pointer;white-space:nowrap}
+  .tab:hover{color:var(--fg)}
+  .tab[aria-selected="true"]{color:var(--fg);background:rgba(169,177,214,.10)}
+  .tab .mk{color:var(--faint)} .tab[aria-selected="true"] .mk{color:var(--green)}
+  .tab .soon{color:var(--yellow)}
+  .segs{display:flex;flex-wrap:wrap;margin-left:auto}
+  .seg{color:var(--seg-ink);font-weight:700;padding:3px 10px;white-space:nowrap}
+  .seg.y{background:var(--yellow)} .seg.g{background:var(--green)} .seg.c{background:var(--cyan)}
+  .seg.b{background:var(--blue)} .seg.m{background:var(--magenta)}
+  button.seg{font:inherit;border:0;cursor:pointer}
+  @media (max-width:720px){ span.seg{display:none} }
+
+  main{flex:1;padding:22px 16px 48px}
+  .view{max-width:108ch;margin:0 auto}
+  .view[hidden]{display:none}
+
+  .cmd{margin:26px 0 8px;font-weight:700}
+  .cmd:first-child{margin-top:0}
+  .cmd .p{color:var(--green)} .cmd .a{color:var(--cyan);font-weight:500}
+  .out{margin:0 0 6px 2ch;max-width:96ch}
+  .note{margin:8px 0 0 2ch;color:var(--dim);font-style:italic;max-width:96ch}
+  .clip{margin:10px 0 4px 2ch}
+  .clip video{display:block;width:100%;height:auto;background:#000;border:1px solid var(--rule)}
+  .clip .cap{color:var(--dim);margin-top:4px;display:flex;flex-wrap:wrap;gap:0 2ch}
+  .rows{margin:4px 0 6px 2ch;display:grid;grid-template-columns:2ch minmax(9ch,max-content) minmax(0,1fr);column-gap:1.5ch;row-gap:6px}
+  .rows>.row{display:contents}
+  .rows .id{color:var(--dim);white-space:nowrap}
+  .rows .tx{min-width:0}
+  .rows .tx .sub{display:block;color:var(--dim)}
+  @media (max-width:720px){
+    .rows{grid-template-columns:2ch minmax(0,1fr)}
+    .rows .id{grid-column:2} .rows .tx{grid-column:2;margin-bottom:4px}
+  }
+  .kv{margin:4px 0 6px 2ch;display:grid;grid-template-columns:minmax(0,max-content) minmax(0,1fr);column-gap:2ch;row-gap:2px}
+  .kv dt{color:var(--dim)} .kv dd{margin:0;min-width:0}
+  @media (max-width:720px){.kv{grid-template-columns:minmax(0,1fr)} .kv dd{margin-bottom:6px}}
+
+  .set{position:sticky;bottom:0;z-index:5;background:rgba(22,22,25,.9);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:8px 16px 10px;border-top:1px solid var(--rule)}
+  .set[hidden]{display:none}
+  .set form{display:flex;flex-wrap:wrap;gap:6px 3ch;align-items:center}
+  .set label{display:flex;gap:1ch;align-items:center;color:var(--dim);white-space:nowrap}
+  .set input,.set select{font:inherit;color:var(--fg);background:rgba(169,177,214,.08);border:1px solid var(--rule);padding:1px 6px}
+  .set input[type=range]{accent-color:var(--blue);padding:0;border:0;background:none;width:12ch}
+  .set input[type=text]{width:26ch}
+  .set .val{color:var(--magenta);min-width:4ch}
+  .set button{font:inherit;color:var(--seg-ink);background:var(--muted);border:0;padding:1px 9px;font-weight:700;cursor:pointer}
+  .set .hint{color:var(--faint);flex-basis:100%;font-style:italic}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  @media print{
+    body::before{display:none} body{background:#fff;color:#111}
+    .bar,.set,.clip{display:none} .view[hidden]{display:block!important}
+  }
 </style>
 </head>
 <body>
-<main>
-  <h1><span class="p">❯</span> agent-os <span class="a">--demo</span></h1>
-  <p class="dim">Agent OS: a multi-agent control terminal (WezTerm and Ratatui). Phil Ho.</p>
-  <video src="media/agent-os.mp4" poster="media/agent-os-poster.jpg" controls autoplay muted loop playsinline preload="metadata"></video>
-  <ul>
-    <li>One keyboard-driven dashboard for many Claude Code and Codex sessions: a fleet view with sub-agent and workflow trees, plus live tokens/s, context, CPU and RAM for each session.</li>
-    <li>Agents publish plans and ask questions through a CLI protocol. Questions land in one Decision inbox with options, a recommended answer and notes. Dangerous tool calls are held for approval.</li>
-    <li>A session viewer with Plan, Logs, Changes and Docs. A usage ledger counts each response once, and in cross-agent verification Claude grades Codex and Codex grades Claude.</li>
-    <li>Core contracts are verified in <b>Lean 4</b>: 57 kernel-checked theorems, with no <code>sorry</code> and only standard axioms. The plan proof found a real acknowledgement bug, which was fixed with an end-to-end regression test.</li>
-    <li>Packaged as plugins and configs: an Agent OS Claude Code plugin, a WezTerm workspace manager with session restore, Jev prompt review (Alt+G) and compaction, and one installer that merges Claude Code and Codex settings, hooks and permissions, backing up each file it changes.</li>
-    <li>Runs on Linux, macOS, native Windows 11 and WSL2.</li>
-  </ul>
-  <p class="dim">The video shows the fleet overview, the plan viewer, the logs, the Decision page with a pending question, the key search and Zen mode. The sessions are the repo's end-to-end test fixture (synthetic agents). The source is private.</p>
-</main>
+<div class="term">
+  <header class="bar">
+    <nav class="tabs" role="tablist" aria-label="Demos">
+      <button class="tab" role="tab" id="t-agent-os" aria-controls="v-agent-os" aria-selected="true"><span class="mk">●</span> 1:agent-os</button>
+      <button class="tab" role="tab" id="t-lean" aria-controls="v-lean" aria-selected="false"><span class="mk">○</span> 2:lean-verify <span class="soon">◆</span></button>
+      <button class="tab" role="tab" id="t-trading" aria-controls="v-trading" aria-selected="false"><span class="mk">○</span> 3:trading-terminal</button>
+    </nav>
+    <div class="segs">
+      <span class="seg g">Phil Ho</span>
+      <span class="seg b">agent-os 0.5.0</span>
+      <span class="seg c">lean 4.35.0</span>
+      <button class="seg y" type="button" id="set-open" aria-expanded="false" aria-controls="set">:set</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="view" id="v-agent-os" role="tabpanel" aria-labelledby="t-agent-os">
+      <div class="cmd"><span class="p">❯</span> agent-os demo <span class="a">--fleet --plan --decision</span></div>
+      <p class="out"><b>Agent OS</b> is a multi-agent control terminal built on <span class="c">WezTerm</span> and <span class="c">Ratatui</span>. It runs many <span class="m">Claude Code</span> and <span class="bl">Codex</span> sessions from one keyboard-driven screen. I use it daily.</p>
+      <div class="clip">
+        <video src="media/agent-os.mp4" poster="media/agent-os-poster.jpg" controls muted loop playsinline preload="metadata"></video>
+        <div class="cap"><span>agent-os.mp4 <span class="m">50 s</span></span><span>fleet · plan · logs · decision · key search · zen</span></div>
+      </div>
+
+      <div class="cmd"><span class="p">❯</span> agent-os features</div>
+      <div class="rows" role="list">
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">fleet</span><span class="tx">One view of every session, with <b>sub-agent and workflow trees</b>, live <span class="c">tokens/s</span>, <span class="c">context</span>, <span class="c">CPU</span> and <span class="c">RAM</span>.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">decisions</span><span class="tx">Agents publish plans and questions through a CLI protocol into one <b>Decision inbox</b>, with options, a <span class="g">recommended</span> answer and notes. <span class="y">Dangerous tool calls</span> wait for approval.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">viewer</span><span class="tx">The session viewer has <b>Plan</b>, <b>Logs</b>, <b>Changes</b> and <b>Docs</b>. The usage ledger counts each response once. Cross-agent verification has Claude grade Codex, and Codex grade Claude.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">plugins</span><span class="tx">An Agent OS <span class="m">Claude Code plugin</span>, a WezTerm <b>workspace manager</b> with session restore, and <span class="c">Jev</span> prompt review (<code>Alt+G</code>) and compaction.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">configs</span><span class="tx">One installer merges <b>Claude Code and Codex</b> settings, hooks and permissions, and backs up every file it changes.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">lean</span><span class="tx">Core contracts are verified in <b>Lean 4</b>: <span class="m">57</span> kernel-checked theorems, with no <code>sorry</code>. The plan proof caught a <span class="r">real acknowledgement bug</span>, which is now fixed with an end-to-end regression test. <a href="#lean">2:lean-verify</a></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">platforms</span><span class="tx">Runs on Linux, macOS, native Windows 11 and WSL2.</span></div>
+      </div>
+      <p class="note">The sessions in the video are the repo's end-to-end test fixture (synthetic agents), so no real work is shown. The source is private.</p>
+    </section>
+
+    <section class="view" id="v-lean" role="tabpanel" aria-labelledby="t-lean" hidden>
+      <div class="cmd"><span class="p">❯</span> agent-os verify lean <span class="a">FILE.lean</span> <span class="y">◆ upcoming</span></div>
+      <p class="out">A <b>Lean 4</b> verification platform is coming to Agent OS. It runs Lean as a formal-evidence engine beside <span class="c">Kani</span> and <span class="c">Verus</span>. It kernel-checks a model with a pinned toolchain and counts it as verified only when every theorem's <b>axiom audit</b> is clean. No model judge is involved.</p>
+      <div class="clip">
+        <video src="media/lean-verify.mp4" poster="media/lean-verify-poster.jpg" controls muted loop playsinline preload="metadata"></video>
+        <div class="cap"><span>lean-verify.mp4 <span class="m">42 s</span></span><span>pass · <code>sorry</code> refused · custom axiom refused · source hash gate</span></div>
+      </div>
+
+      <div class="cmd"><span class="p">❯</span> verify lean <span class="a">--rules</span></div>
+      <div class="rows" role="list">
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">passes</span><span class="tx">The kernel accepts the file, and every theorem depends only on <code>propext</code>, <code>Quot.sound</code> or <code>Classical.choice</code>.</span></div>
+        <div class="row" role="listitem"><span class="r">✗</span><span class="id">refused</span><span class="tx"><code>sorry</code>, <code>admit</code>, custom <code>axiom</code>s, an empty audit, a timeout or unrecognized output. Any of these leaves the proof <span class="y">unconfirmed</span>.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">sandbox</span><span class="tx">Runs in a copied workspace with a private home, a <span class="m">30 s</span> limit and bounded output. Nothing is installed automatically.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">correspondence</span><span class="tx">The repo gate pins the <b>sha256 of every reviewed source file</b>. If a modelled file changes, the check fails until the proof is reviewed again.</span></div>
+        <div class="row" role="listitem"><span class="y">◆</span><span class="id">in progress</span><span class="tx">Lean evidence in cross-agent verification reports, with formal scope and assumptions shown next to judge verdicts.</span></div>
+      </div>
+
+      <div class="cmd"><span class="p">❯</span> verify lean <span class="a">--proved-so-far</span></div>
+      <dl class="kv">
+        <dt>accounting</dt><dd>maxima are idempotent, commutative, associative and monotone; work <span class="c">saturates at u64</span>; fresh input never goes negative</dd>
+        <dt>plan</dt><dd>a live plan is acknowledged only when all parent and child steps are done <span class="r">(caught the bug)</span></dd>
+        <dt>documents</dt><dd>a different session cannot update a stamped document; escaped text cannot open an HTML tag</dd>
+        <dt>render cache</dt><dd>exact reuse on a hit, bounded retained bytes, no Chrome or full decode for selection and zoom</dd>
+        <dt>total</dt><dd><span class="m">57</span> theorems · <span class="m">506</span> lines of Lean · standard axioms only</dd>
+      </dl>
+      <p class="note">These are proofs of explicit models, and source hashes guard the link to the code. They do not prove the compiler, IO or the parsers.</p>
+    </section>
+
+    <section class="view" id="v-trading" role="tabpanel" aria-labelledby="t-trading" hidden>
+      <div class="cmd"><span class="p">❯</span> trading-terminal demo <span class="a">--read-only</span></div>
+      <p class="out">A keyboard-first <b>Hyperliquid perps</b> trading terminal. It is a static <span class="c">Svelte 5</span> app on <span class="c">Cloudflare Workers</span> that talks to the exchange over <b>one WebSocket</b>, with no backend.</p>
+      <div class="clip">
+        <video src="media/trading-terminal.mp4" poster="media/trading-terminal-poster.jpg" controls muted loop playsinline preload="metadata"></video>
+        <div class="cap"><span>trading-terminal.mp4 <span class="m">41 s</span></span><span>markets · hotkeys · function search · chart coach · settings</span></div>
+      </div>
+
+      <div class="cmd"><span class="p">❯</span> trading-terminal features</div>
+      <div class="rows" role="list">
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">execution</span><span class="tx"><b>Market</b>, <b>limit</b>, <b>scale</b>, <b>chase</b>, <b>stop/take</b> and <b>TP/SL</b> tickets, across perps, HIP-3 and spot markets.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">hotkeys</span><span class="tx">Every load starts <span class="y">disarmed</span>. Order keys need <code>`</code> to arm and queue per coin in press order. The function search takes a <span class="c">regex</span>.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">keys</span><span class="tx">Trades through a browser-held <b>agent key</b> that can place and cancel orders but <span class="g">cannot withdraw</span>.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">rate limit</span><span class="tx">Market lists, candles and fills are cached locally, which cut a warm reload from <span class="r">348</span> to <span class="g">20</span> units of the per-IP rate-limit budget.</span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">ai coach</span><span class="tx">A local <span class="c">MCP</span> companion for Claude Code and Codex. It stages tickets, chart marks and coaching notes in the browser, and it never holds a trading key.</span></div>
+      </div>
+      <p class="note">Recorded on the live site with no wallet connected.</p>
+    </section>
+  </main>
+
+  <div class="set" id="set" hidden>
+    <form id="set-form" aria-label="Appearance">
+      <label for="f-font">font <select id="f-font" name="font">
+        <option value="SauceCodePro Nerd Font">SauceCodePro Nerd Font (local)</option>
+        <option value="Source Code Pro">Source Code Pro</option>
+        <option value="JetBrains Mono">JetBrains Mono</option>
+        <option value="IBM Plex Mono">IBM Plex Mono</option>
+        <option value="Fira Code">Fira Code</option>
+        <option value="custom">custom…</option>
+      </select></label>
+      <label for="f-custom" id="custom-wrap" hidden>name <input type="text" id="f-custom" name="custom" placeholder="an installed font name" autocomplete="off"></label>
+      <label for="f-size">size <input type="range" id="f-size" name="size" min="12" max="18" step="1"><span class="val" id="v-size"></span></label>
+      <label for="f-op">wallpaper <input type="range" id="f-op" name="op" min="0" max="60" step="5"><span class="val" id="v-op"></span></label>
+      <label for="f-br">brightness <input type="range" id="f-br" name="br" min="20" max="100" step="5"><span class="val" id="v-br"></span></label>
+      <button type="button" id="set-reset">reset</button>
+      <span class="hint">Cosmic Haze wallpaper, as bundled with Agent OS. Stored in this browser only. Keys 1–3 switch tabs.</span>
+    </form>
+  </div>
+</div>
+
+<script>
+function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){return null;}}
+
+var tabs=[].slice.call(document.querySelectorAll('.tab'));
+function show(view,push){
+  tabs.forEach(function(t){
+    var on=t.getAttribute('aria-controls')==='v-'+view; t.setAttribute('aria-selected',String(on)); t.tabIndex=on?0:-1;
+    t.querySelector('.mk').textContent=on?'●':'○';
+    var v=document.getElementById(t.getAttribute('aria-controls')); v.hidden=!on;
+    if(!on) v.querySelectorAll('video').forEach(function(x){x.pause();});
+  });
+  if(push){ try{ history.replaceState(null,'','#'+view); }catch(e){} }
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function fromHash(){ var h=location.hash.slice(1); return document.getElementById('v-'+h)&&h; }
+function viewOf(t){ return t.getAttribute('aria-controls').slice(2); }
+tabs.forEach(function(t,i){
+  t.addEventListener('click',function(){show(viewOf(t),true);});
+  t.addEventListener('keydown',function(e){
+    var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d) return;
+    e.preventDefault(); var n=tabs[(i+d+tabs.length)%tabs.length]; show(viewOf(n),true); n.focus();
+  });
+});
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href^="#"]'); if(!a) return;
+  var id=a.getAttribute('href').slice(1); if(!document.getElementById('v-'+id)) return;
+  e.preventDefault(); show(id,true);
+});
+document.addEventListener('keydown',function(e){
+  if(e.target.closest('input,select,textarea')) return;
+  var k=parseInt(e.key,10); if(k>=1&&k<=tabs.length&&!e.metaKey&&!e.ctrlKey&&!e.altKey) show(viewOf(tabs[k-1]),true);
+});
+window.addEventListener('hashchange',function(){ var h=fromHash(); if(h) show(h,false); });
+show(fromHash()||'agent-os',false);
+
+var DEF={font:'SauceCodePro Nerd Font',custom:'',size:15,op:15,br:50};
+var S; try{ S=JSON.parse(store('demos-set')||'null'); }catch(e){ S=null; } S=Object.assign({},DEF,S||{});
+var root=document.documentElement, F={font:document.getElementById('f-font'),custom:document.getElementById('f-custom'),size:document.getElementById('f-size'),op:document.getElementById('f-op'),br:document.getElementById('f-br')};
+function apply(){
+  var fam=S.font==='custom'?(S.custom||DEF.font):S.font;
+  root.style.setProperty('--font','"'+fam.replace(/"/g,'')+'","SauceCodePro NF","Source Code Pro",ui-monospace,monospace');
+  root.style.setProperty('--size',S.size+'px');
+  root.style.setProperty('--bg-opacity',String(S.op/100));
+  root.style.setProperty('--bg-bright',String(S.br/100));
+  document.body.classList.toggle('no-wall',S.op===0);
+  F.font.value=S.font; F.custom.value=S.custom; F.size.value=S.size; F.op.value=S.op; F.br.value=S.br;
+  document.getElementById('custom-wrap').hidden=S.font!=='custom';
+  document.getElementById('v-size').textContent=S.size+'px';
+  document.getElementById('v-op').textContent=S.op+'%';
+  document.getElementById('v-br').textContent=S.br+'%';
+  store('demos-set',JSON.stringify(S));
+}
+document.getElementById('set-form').addEventListener('input',function(){
+  S.font=F.font.value; S.custom=F.custom.value.trim(); S.size=+F.size.value; S.op=+F.op.value; S.br=+F.br.value; apply();
+});
+document.getElementById('set-reset').addEventListener('click',function(){S=Object.assign({},DEF);apply();});
+var setBtn=document.getElementById('set-open'), setEl=document.getElementById('set');
+setBtn.addEventListener('click',function(){ setEl.hidden=!setEl.hidden; setBtn.setAttribute('aria-expanded',String(!setEl.hidden)); if(!setEl.hidden) F.font.focus(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!setEl.hidden){ setEl.hidden=true; setBtn.setAttribute('aria-expanded','false'); setBtn.focus(); }});
+apply();
+</script>
 </body>
 </html>
