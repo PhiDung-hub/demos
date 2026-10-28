@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Phil Ho Demos</title>
+<title>Phil Ho Cookbook</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%94%A8%3C/text%3E%3C/svg%3E">
 <meta name="description" content="Video demos: Agent OS, its upcoming Lean verification pipeline, and a Hyperliquid trading terminal with a local MCP companion.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,500;0,700;1,500&family=JetBrains+Mono:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,500;0,700;1,500&family=Fira+Code:wght@500;700&display=swap">
@@ -46,6 +47,14 @@
   .seg.y{background:var(--yellow)} .seg.g{background:var(--green)}
   .vimline{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;
     background:rgba(22,22,25,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .vimline form{display:flex;align-items:center;flex:1;min-width:0;padding:0 1ch;margin:0}
+  .vimline form[hidden],.vimline .seg[hidden]{display:none}
+  .vimline input{flex:1;min-width:0;font:inherit;color:var(--fg);background:none;border:0;outline:0;padding:3px 0}
+  .vimline .hint{color:var(--faint);padding:3px 1ch;margin-left:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .vimline form:not([hidden])~.hint{display:none}
+  @media (max-width:720px){ .vimline .hint{display:none} }
+  .vimline .count{color:var(--magenta);padding-left:1ch;white-space:nowrap}
+  .hit{background:rgba(224,175,104,.14)} .hit.cur{background:rgba(224,175,104,.32);outline:1px solid var(--yellow)}
 
   main{flex:1;padding:22px 16px 64px}
   .view{max-width:108ch;margin:0 auto}
@@ -106,10 +115,6 @@
       <button class="tab" role="tab" id="t-lean" aria-controls="v-lean" aria-selected="false"><span class="mk">○</span> 2:lean-verify <span class="soon">◆</span></button>
       <button class="tab" role="tab" id="t-trading" aria-controls="v-trading" aria-selected="false"><span class="mk">○</span> 3:trading-terminal</button>
     </nav>
-    <div class="segs">
-      <span class="seg g">Phil Ho</span>
-      <span class="seg y">© 2026</span>
-    </div>
   </header>
 
   <main>
@@ -213,7 +218,7 @@
     </section>
   </main>
 
-  <div class="vimline"><span class="seg y" title="Work in progress">:build</span></div>
+  <div class="vimline"><span class="seg y" id="mode" title="Work in progress">:build</span><form id="find" role="search" hidden><span class="p">/</span><input id="q" aria-label="Search all tabs" autocomplete="off" spellcheck="false"><span class="count" id="count"></span></form><span class="hint" id="hint">1–3 tabs · / search · n N next · ? ask Gemini</span><span class="segs"><span class="seg g">Phil Ho</span><span class="seg y">© 2026</span></span></div>
 
 </div>
 
@@ -298,9 +303,44 @@ document.addEventListener('click',function(e){
   var id=a.getAttribute('href').slice(1); if(!document.getElementById('v-'+id)) return;
   e.preventDefault(); show(id,true);
 });
+var CANDS=[].slice.call(document.querySelectorAll('.view .tx,.view .out,.view .note,.view .cmd,.view .cap'));
+var findEl=document.getElementById('find'), q=document.getElementById('q'), countEl=document.getElementById('count'), mode=document.getElementById('mode'), hint=document.getElementById('hint'), hits=[], hi=-1;
+function search(text){
+  hits.forEach(function(x){x.classList.remove('hit','cur');});
+  text=text.trim().toLowerCase(); hi=-1;
+  hits=text?CANDS.filter(function(x){return x.textContent.toLowerCase().indexOf(text)>=0;}):[];
+  hits.forEach(function(x){x.classList.add('hit');});
+  countEl.textContent=text&&!hits.length?'no match':'';
+  if(hits.length) jump(1);
+}
+function jump(d){
+  if(!hits.length) return;
+  if(hits[hi]) hits[hi].classList.remove('cur');
+  hi=(hi+d+hits.length)%hits.length;
+  var x=hits[hi]; x.classList.add('cur');
+  var v=x.closest('.view').id.slice(2); if(document.getElementById('v-'+v).hidden) show(v,true);
+  x.scrollIntoView({block:'center',behavior:'instant'});
+  countEl.textContent=(hi+1)+'/'+hits.length;
+}
+function openFind(){ mode.hidden=true; findEl.hidden=false; q.value=''; search(''); q.focus(); }
+function closeFind(){ search(''); findEl.hidden=true; mode.hidden=false; q.blur(); }
+var ASK='Explain this web page in plain words: '+location.origin+location.pathname+' . What are Agent OS, its Lean verification pipeline and the Hyperliquid trading terminal, and what does each demo show?';
+function askGemini(){
+  window.open('https://gemini.google.com/app','_blank','noopener');
+  var done=function(ok){ hint.textContent=ok?'prompt copied · paste into Gemini':'paste into Gemini: '+ASK; setTimeout(function(){ hint.textContent='1–3 tabs · / search · n N next · ? ask Gemini'; },8000); };
+  try{ navigator.clipboard.writeText(ASK).then(function(){done(true);},function(){done(false);}); }catch(e){ done(false); }
+}
+q.addEventListener('input',function(){ search(q.value); });
+findEl.addEventListener('submit',function(e){ e.preventDefault(); q.blur(); if(!q.value.trim()) closeFind(); });
+q.addEventListener('keydown',function(e){ if(e.key==='Escape'){ e.preventDefault(); closeFind(); } });
 document.addEventListener('keydown',function(e){
-  if(e.target.closest('input,select,textarea')) return;
-  var k=parseInt(e.key,10); if(k>=1&&k<=tabs.length&&!e.metaKey&&!e.ctrlKey&&!e.altKey) show(viewOf(tabs[k-1]),true);
+  if(e.target.closest('input,select,textarea')||e.metaKey||e.ctrlKey||e.altKey) return;
+  var k=parseInt(e.key,10);
+  if(k>=1&&k<=tabs.length){ show(viewOf(tabs[k-1]),true); return; }
+  if(e.key==='/'){ e.preventDefault(); openFind(); return; }
+  if(e.key==='?'){ e.preventDefault(); askGemini(); return; }
+  if(e.key==='n'||e.key==='N'){ if(hits.length){ e.preventDefault(); jump(e.key==='n'?1:-1); } return; }
+  if(e.key==='Escape'&&!findEl.hidden) closeFind();
 });
 window.addEventListener('hashchange',function(){ var h=fromHash(); if(h) show(h,false); });
 show(fromHash()||'agent-os',false);
