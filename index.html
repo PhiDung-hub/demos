@@ -44,9 +44,10 @@
   .segs{display:flex;flex-wrap:wrap;margin-left:auto}
   .seg{color:var(--seg-ink);font-weight:700;padding:3px 10px;white-space:nowrap}
   .seg.y{background:var(--yellow)} .seg.g{background:var(--green)}
-  @media (max-width:720px){ .seg.who{display:none} }
+  .vimline{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;
+    background:rgba(22,22,25,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 
-  main{flex:1;padding:22px 16px 48px}
+  main{flex:1;padding:22px 16px 64px}
   .view{max-width:108ch;margin:0 auto}
   .view[hidden]{display:none}
 
@@ -93,7 +94,7 @@
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
   @media print{
     body::before{display:none} body{background:#fff;color:#111}
-    .bar,.clip{display:none} .view[hidden]{display:block!important}
+    .bar,.vimline,.clip{display:none} .view[hidden]{display:block!important}
   }
 </style>
 </head>
@@ -106,8 +107,8 @@
       <button class="tab" role="tab" id="t-trading" aria-controls="v-trading" aria-selected="false"><span class="mk">○</span> 3:trading-terminal</button>
     </nav>
     <div class="segs">
-      <span class="seg g who">Phil Ho © 2026</span>
-      <span class="seg y" title="Work in progress">🏗 :build</span>
+      <span class="seg g">Phil Ho</span>
+      <span class="seg y">© 2026</span>
     </div>
   </header>
 
@@ -211,12 +212,14 @@
     </section>
   </main>
 
+  <div class="vimline"><span class="seg y" title="Work in progress">🏗 :build</span></div>
+
 </div>
 
 <script>
 
 var NODES=[
-  {id:'program',x:20,y:120,t:'program',k:'source + contracts',g:'›',c:'c',d:'The program under check. Agent OS feeds the Rust sources and the contracts each one must keep: accounting, plans, documents and the render cache.'},
+  {id:'program',x:20,y:120,t:'program',k:'source + contracts',g:'›',c:'c',d:'The program under check. Agent OS feeds the sources and the contracts each one must keep: accounting, plans, documents and the render cache.'},
   {id:'model',x:190,y:120,t:'extract model',k:'per contract',g:'›',c:'c',d:'Each contract becomes an explicit mathematical model. Behaviour Lean cannot express, such as IO, parsers, Chrome or billing, goes down the confidence path instead.'},
   {id:'kernel',x:370,y:50,t:'Lean kernel',k:'v4.35.0 pinned',g:'✓',c:'g',d:'The pinned Lean 4.35.0 toolchain checks each model in a copied workspace with a private home, a 30 s limit and bounded output. No Mathlib and no model judge.'},
   {id:'audit',x:550,y:50,t:'axiom audit',k:'#print axioms',g:'✓',c:'g',d:'Every theorem must print a nonempty audit that uses only propext, Quot.sound or Classical.choice. sorry, admit, native_decide and custom axioms are refused.'},
