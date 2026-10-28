@@ -118,6 +118,13 @@
         <video src="media/agent-os.mp4" poster="media/agent-os-poster.jpg" controls muted loop playsinline preload="metadata"></video>
         <div class="cap"><span>agent-os.mp4 <span class="m">50 s</span></span><span>fleet · plan · logs · decision · key search · zen</span></div>
       </div>
+      <div class="graph" role="group" aria-label="Agent OS architecture graph">
+        <svg viewBox="0 0 1000 300" id="aos-graph">
+          <defs><marker id="ah2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 8 4 0 8z" fill="#6f7584"/></marker></defs>
+        </svg>
+      </div>
+      <div class="detail" id="aos-detail" aria-live="polite"></div>
+
       <div class="cmd"><span class="p">❯</span> agent-os <span class="a">--about</span></div>
       <p class="out"><b>Agent OS</b> runs many <span class="m">Claude Code</span> and <span class="bl">Codex</span> sessions from one keyboard-driven <span class="c">WezTerm</span> screen. I use it daily.</p>
 
@@ -128,7 +135,7 @@
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">plugins</span><span class="tx">Ships a <span class="m">Claude Code plugin</span>, <span class="c">Jev</span> prompt review and a config installer.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">lean</span><span class="tx">Proves core contracts in <b>Lean 4</b>; the proofs caught a <span class="r">real bug</span>. <a href="#lean">2:lean-verify</a></span><span class="sc"></span></div>
       </div>
-      <p class="note">Synthetic test sessions; private source.</p>
+      <p class="note">The video uses synthetic test sessions; the source stays private.</p>
     </section>
 
     <section class="view" id="v-lean" role="tabpanel" aria-labelledby="t-lean" hidden>
@@ -154,12 +161,12 @@
       <div class="detail" id="detail" aria-live="polite"></div>
 
       <div class="cmd"><span class="p">❯</span> verify pipeline <span class="a">--results agent-os</span> <span class="y">◆ upcoming</span></div>
-      <p class="out">The pipeline takes a <b>program</b>, proves what can be modelled in <b>Lean 4</b>, and gives everything else a <span class="y">confidence score</span> from tests and cross-agent graders. Proved rows come from the real Agent OS run. The confidence numbers are <span class="y">illustrative</span> until the scorer ships.</p>
+      <p class="out">The pipeline takes a <b>program</b>, proves what <b>Lean 4</b> can model, and gives everything else a <span class="y">confidence score</span> from tests and cross-agent graders. Proved rows come from the real Agent OS run. The confidence numbers are <span class="y">illustrative</span> until the scorer ships.</p>
       <div class="rows" role="list">
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">accounting</span><span class="tx">Usage maxima are idempotent, commutative, associative and monotone; work saturates at u64; fresh input never goes negative.</span><span class="sc g">proved · <span class="m">11</span></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">plan</span><span class="tx">A live plan is acknowledged only when every parent and child step is done. <span class="r">This proof caught a real bug.</span></span><span class="sc g">proved · <span class="m">5</span></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">plan</span><span class="tx">Agent OS acknowledges a live plan only when every parent and child step finishes. <span class="r">This proof caught a real bug.</span></span><span class="sc g">proved · <span class="m">5</span></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">documents</span><span class="tx">Another session cannot update a stamped document; escaped text cannot open an HTML tag.</span><span class="sc g">proved · <span class="m">9</span></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">render cache</span><span class="tx">Exact reuse on a hit, bounded retained bytes, no Chrome or full decode for selection and zoom.</span><span class="sc g">proved · <span class="m">32</span></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">render cache</span><span class="tx">A hit reuses the exact output, retained bytes stay bounded, and selection and zoom skip Chrome and full decodes.</span><span class="sc g">proved · <span class="m">32</span></span></div>
         <div class="row" role="listitem"><span class="y">~</span><span class="id">parsers</span><span class="tx">JSON and UTF-8 transcript parsing.<span class="sub">ledger corpus oracle test + graders</span></span><span class="sc"><span class="meter"><i style="width:90%"></i></span><span class="y">0.90</span></span></div>
         <div class="row" role="listitem"><span class="y">~</span><span class="id">io</span><span class="tx">Locks, atomic writes, and restart and resume.<span class="sub">plan restart/resume e2e flow + graders</span></span><span class="sc"><span class="meter"><i style="width:84%"></i></span><span class="y">0.84</span></span></div>
         <div class="row" role="listitem"><span class="y">~</span><span class="id">rendering</span><span class="tx">Chrome and Mermaid output and screenshot resolution.<span class="sub">docs-mode e2e flow + graders</span></span><span class="sc"><span class="meter"><i style="width:72%"></i></span><span class="y">0.72</span></span></div>
@@ -174,8 +181,8 @@
       <div class="rows" role="list">
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">passes</span><span class="tx">The kernel accepts the file, and every theorem depends only on <code>propext</code>, <code>Quot.sound</code> or <code>Classical.choice</code>.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="r">✗</span><span class="id">refused</span><span class="tx"><code>sorry</code>, <code>admit</code>, custom <code>axiom</code>s, an empty audit, a timeout or unrecognized output. Any of these leaves the proof <span class="y">unconfirmed</span>.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">sandbox</span><span class="tx">Runs in a copied workspace with a private home, a <span class="m">30 s</span> limit and bounded output. Nothing is installed automatically.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">correspondence</span><span class="tx">The repo gate pins the <b>sha256 of every reviewed source file</b>. If a modelled file changes, the check fails until the proof is reviewed again.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">sandbox</span><span class="tx">Runs in a copied workspace with a private home, a <span class="m">30 s</span> limit and bounded output. It installs nothing automatically.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">correspondence</span><span class="tx">The repo gate pins the <b>sha256 of every reviewed source file</b>. If a modelled file changes, the check fails until someone reviews the proof again.</span><span class="sc"></span></div>
       </div>
       <p class="note">Proofs cover explicit models, and source hashes guard the link to the code. They do not prove the compiler, IO or the parsers; those get confidence scores instead.</p>
     </section>
@@ -186,9 +193,9 @@
         <div class="cap"><span>trading-terminal.mp4 <span class="m">41 s</span></span><span>markets · hotkeys · function search · chart coach · settings</span></div>
       </div>
       <div class="cmd"><span class="p">❯</span> trading-terminal <span class="a">--about</span></div>
-      <p class="out">A keyboard-first <b>Hyperliquid perps</b> trading terminal. It is a static <span class="c">Svelte 5</span> app on <span class="c">Cloudflare Workers</span> that talks to the exchange over <b>one WebSocket</b>, with no backend.</p>
+      <p class="out">A keyboard-first <b>Hyperliquid perps</b> trading terminal: a static <span class="c">Svelte 5</span> app on <span class="c">Cloudflare Workers</span> that talks to the exchange over <b>one WebSocket</b>, with no backend.</p>
       <div class="rows" role="list">
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">hotkeys</span><span class="tx">Hotkey execution for <b>market</b>, <b>limit</b>, <b>scale</b>, <b>chase</b>, <b>stop/take</b> and <b>TP/SL</b> orders. Every load starts <span class="y">disarmed</span>; <code>`</code> arms the keys, and orders queue per coin in press order.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">hotkeys</span><span class="tx">Executes <b>market</b>, <b>limit</b>, <b>scale</b>, <b>chase</b>, <b>stop/take</b> and <b>TP/SL</b> orders from hotkeys. Every load starts <span class="y">disarmed</span>; <code>`</code> arms the keys, and orders queue per coin in press order.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">ai mcp</span><span class="tx">Any <span class="c">MCP</span> client (<span class="m">Claude Code</span>, <span class="bl">Codex</span> and others) reads the chart, draws levels, coaches and stages tickets <span class="g">you send yourself</span>. Demo below.</span><span class="sc"></span></div>
       </div>
 
@@ -206,7 +213,7 @@
     </section>
   </main>
 
-  <div class="vimline"><span class="seg y" title="Work in progress">🏗 :build</span></div>
+  <div class="vimline"><span class="seg y" title="Work in progress">:build</span></div>
 
 </div>
 
@@ -216,33 +223,55 @@ var NODES=[
   {id:'program',x:20,y:120,t:'program',k:'source + contracts',g:'›',c:'c',d:'The program under check. Agent OS feeds the sources and the contracts each one must keep: accounting, plans, documents and the render cache.'},
   {id:'model',x:190,y:120,t:'extract model',k:'per contract',g:'›',c:'c',d:'Each contract becomes an explicit mathematical model. Behaviour Lean cannot express, such as IO, parsers, Chrome or billing, goes down the confidence path instead.'},
   {id:'kernel',x:370,y:50,t:'Lean kernel',k:'v4.35.0 pinned',g:'✓',c:'g',d:'The pinned Lean 4.35.0 toolchain checks each model in a copied workspace with a private home, a 30 s limit and bounded output. No Mathlib and no model judge.'},
-  {id:'audit',x:550,y:50,t:'axiom audit',k:'#print axioms',g:'✓',c:'g',d:'Every theorem must print a nonempty audit that uses only propext, Quot.sound or Classical.choice. sorry, admit, native_decide and custom axioms are refused.'},
+  {id:'audit',x:550,y:50,t:'axiom audit',k:'#print axioms',g:'✓',c:'g',d:'Every theorem must print a nonempty audit that uses only propext, Quot.sound or Classical.choice. The audit refuses sorry, admit, native_decide and custom axioms.'},
   {id:'hash',x:720,y:50,t:'source hash',k:'sha256 guard',g:'✓',c:'g',d:'The repo gate pins the sha256 of every reviewed source file. If a modelled file changes, the gate fails until someone reviews the proof again.'},
   {id:'proved',x:875,y:50,w:120,t:'PROVED',k:'57 theorems',g:'✓',c:'g',d:'57 kernel-checked theorems: accounting 11, plan 5, documents 9, render cache 32. The plan proof caught a real acknowledgement bug.'},
   {id:'tests',x:370,y:195,t:'observed tests',k:'e2e + corpus',g:'~',c:'y',d:'Deterministic checks run in scratch workspaces: the ledger corpus oracle, the plan restart/resume flow and the docs-mode flow. These are observed results, not proofs.'},
   {id:'graders',x:550,y:195,t:'cross-agent',k:'Claude ⇄ Codex',g:'~',c:'y',d:'Opposite-harness graders score each rubric criterion blind. Missing, skipped and uncertain assessments stay in the denominator.'},
-  {id:'score',x:720,y:195,t:'calibration',k:'vs golden labels',g:'~',c:'y',d:'Grader agreement is calibrated against labelled golden outcomes, so a confident judge that is often wrong scores lower.'},
+  {id:'score',x:720,y:195,t:'calibration',k:'vs golden labels',g:'~',c:'y',d:'Calibration checks grader agreement against labelled golden outcomes, so a confident judge that is often wrong scores lower.'},
   {id:'confidence',x:875,y:195,w:120,t:'CONFIDENCE',k:'0.00–1.00',g:'◆',c:'y',d:'Upcoming: one confidence score per contract that Lean cannot prove, combining observed tests, graders and calibration. The scores shown below are illustrative.'}
 ];
-(function graph(){
-  var svg=document.getElementById('pipe'), ns='http://www.w3.org/2000/svg', det=document.getElementById('detail');
+var AOS_NODES=[
+  {id:'agents',x:20,y:50,t:'agents',k:'Claude Code · Codex',g:'›',c:'m',d:'Runs Claude Code and Codex sessions side by side and draws sub-agents and workflows as trees.'},
+  {id:'config',x:20,y:195,t:'configs',k:'plugin · Jev · setup',g:'›',c:'c',d:'Installs the Agent OS plugin, Jev prompt review and merged Claude Code and Codex settings, backing up every file it changes.'},
+  {id:'hooks',x:215,y:50,t:'hooks',k:'tool events',g:'!',c:'y',d:'Reports every tool event and holds dangerous calls until you approve them.'},
+  {id:'cli',x:215,y:195,t:'CLI protocol',k:'plan · doc · ask',g:'›',c:'c',d:'Lets agents publish plans and documents and ask you questions.'},
+  {id:'hub',x:410,y:120,t:'hub',k:'state · usage ledger',g:'◆',c:'bl',d:'Keeps sessions, plans and documents, and counts each response once in the usage ledger.'},
+  {id:'fleet',x:605,y:20,t:'fleet',k:'tokens/s · context',g:'✓',c:'g',d:'Shows every session with tokens/s, context, CPU and RAM. Open one to read its plan, logs, changes and docs.'},
+  {id:'inbox',x:605,y:120,t:'decision inbox',k:'options · approvals',g:'!',c:'y',d:'Collects questions with options and a recommended answer, plus held tool calls.'},
+  {id:'verify',x:605,y:220,t:'verify',k:'Lean 4 · cross-agent',g:'✓',c:'g',d:'Proves core contracts in Lean 4 and has Claude grade Codex and Codex grade Claude. See 2:lean-verify.'},
+  {id:'you',x:820,y:120,t:'you',k:'one keyboard',g:'❯',c:'g',d:'Answer, approve or jump into any session from one screen; the reply goes straight back to the waiting agent.'}
+];
+var AOS_EDGES=[['agents','hooks','ok'],['agents','cli','ok'],['config','hooks',''],['config','cli',''],['hooks','hub','cf'],['cli','hub','ok'],
+  ['hub','fleet','ok'],['hub','inbox','cf'],['hub','verify','ok'],['fleet','you','ok'],['inbox','you','cf'],['verify','you','ok']];
+function graph(svgId,detId,nodes,edges,marker){
+  var svg=document.getElementById(svgId), ns='http://www.w3.org/2000/svg', det=document.getElementById(detId), by={};
+  var COL={g:'#9ece6a',y:'#e0af68',m:'#bb9af7',bl:'#7aa2f7',c:'#7dcfff'};
   function el(n,a,p){var e=document.createElementNS(ns,n);for(var k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e;}
   function pick(n,g){
     [].forEach.call(svg.querySelectorAll('.node'),function(x){x.classList.toggle('sel',x===g);});
     det.innerHTML='<div class="h"><span class="gl '+n.c+'">'+n.g+'</span>'+n.t+' <span class="dim">· '+n.k+'</span></div><div class="dim">'+n.d+'</div>';
   }
-  NODES.forEach(function(n,i){
+  nodes.forEach(function(n){by[n.id]=n;});
+  (edges||[]).forEach(function(e){
+    var a=by[e[0]],b=by[e[1]],x1=a.x+(a.w||140),y1=a.y+30,x2=b.x,y2=b.y+30,mx=(x1+x2)/2;
+    var d='M'+x1+' '+y1+' C'+mx+' '+y1+' '+mx+' '+y2+' '+x2+' '+y2;
+    el('path',{'class':'edge '+e[2],d:d,'marker-end':'url(#'+marker+')'});
+    if(e[2]) el('path',{'class':'edge flow '+e[2],d:d});
+  });
+  nodes.forEach(function(n,i){
     var w=n.w||140,g=el('g',{'class':'node',tabindex:'0',role:'button','aria-label':n.t});
     el('rect',{x:n.x,y:n.y,width:w,height:60,rx:2},g);
-    var col=n.c==='g'?'#9ece6a':n.c==='y'?'#e0af68':'#7dcfff';
-    el('text',{x:n.x+10,y:n.y+24,fill:col},g).textContent=n.g;
+    el('text',{x:n.x+10,y:n.y+24,fill:COL[n.c]||COL.c},g).textContent=n.g;
     el('text',{x:n.x+26,y:n.y+24,'font-weight':'700'},g).textContent=n.t;
     el('text',{x:n.x+10,y:n.y+45,'class':'k'},g).textContent=n.k;
     g.addEventListener('click',function(){pick(n,g);});
     g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(n,g);}});
     if(i===0) pick(n,g);
   });
-})();
+}
+graph('pipe','detail',NODES);
+graph('aos-graph','aos-detail',AOS_NODES,AOS_EDGES,'ah2');
 
 var tabs=[].slice.call(document.querySelectorAll('.tab'));
 function viewOf(t){ return t.getAttribute('aria-controls').slice(2); }
