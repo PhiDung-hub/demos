@@ -128,7 +128,7 @@
     <section class="view" id="v-agent-os" role="tabpanel" aria-labelledby="t-agent-os">
       <div class="clip">
         <video src="media/agent-os.mp4" poster="media/agent-os-poster.jpg" controls muted loop playsinline preload="metadata"></video>
-        <div class="cap"><span>agent-os.mp4 <span class="m">69 s · 1080p</span></span><span>fleet · live metrics · plans · decisions · HTML docs · logs · live grep</span></div>
+        <div class="cap"><span>agent-os.mp4 <span class="m">83 s · 1080p</span></span><span>fleet · co-working · changes · live grep · decisions</span></div>
       </div>
       <div class="graph" role="group" aria-label="Agent OS architecture graph">
         <svg viewBox="0 0 1000 300" id="aos-graph">
@@ -142,8 +142,11 @@
 
       <div class="cmd"><span class="p">❯</span> agent-os features</div>
       <div class="rows" role="list">
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">fleet</span><span class="tx">Tracks every session: sub-agents, <span class="c">tokens/s</span>, context, CPU and RAM.</span><span class="sc"></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">decisions</span><span class="tx">Gathers agent plans and questions in one <b>inbox</b>; holds <span class="y">dangerous tool calls</span> for approval.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">fleet</span><span class="tx">Tracks every session: plans, sub-agents, <span class="c">tokens/s</span>, context, CPU and RAM.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">co-working</span><span class="tx">Shows the messages sessions send each other, in <b>both</b> conversations.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">changes</span><span class="tx">Diffs each session's edits live against git; <span class="g">●</span> marks the files <i>that</i> session changed.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">live grep</span><span class="tx">Searches every session's conversation at once, with <span class="c">fff</span>-style keys; stored decisions too.</span><span class="sc"></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">decisions</span><span class="tx">Gathers agent questions in one <b>inbox</b> with their context and each option's evidence; logs every pick; holds <span class="y">dangerous tool calls</span> for approval.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">plugins</span><span class="tx">Ships a <span class="m">Claude Code plugin</span>, <span class="c">Jev</span> prompt review and a config installer.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">lean</span><span class="tx">Proves core contracts in <b>Lean 4</b>; the proofs caught a <span class="r">real bug</span>. <a href="#lean">2:Lean Verify</a></span><span class="sc"></span></div>
       </div>
