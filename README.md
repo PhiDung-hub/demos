@@ -1,11 +1,11 @@
-# Agent OS · Lean Verify · HL Terminal
+# WAT (What A Terminal, or Wezterm with an Agentic Tweak) · Lean Verify · HL Terminal
 
 **Open it here: https://phidung-hub.github.io/demos/** (keys 1–3 switch tabs, `/` searches).
 
 | Tab | What it shows | Video |
 | --- | --- | --- |
-| [1:Agent OS](https://phidung-hub.github.io/demos/#agent-os) | Multi-agent control terminal (WezTerm + Ratatui): fleet, plans, decisions, HTML docs, logs and live grep | [agent-os.mp4](media/agent-os.mp4) |
-| [2:Lean Verify](https://phidung-hub.github.io/demos/#lean) | Upcoming in Agent OS: `verify lean` plus confidence scores for what Lean cannot prove | coming |
+| [1:WAT](https://phidung-hub.github.io/demos/#wat) | Multi-agent control terminal (WezTerm + Ratatui): fleet, plans, decisions, HTML docs, logs and live grep | [WAT demo](media/agent-os.mp4) |
+| [2:Lean Verify](https://phidung-hub.github.io/demos/#lean) | Upcoming in WAT: `verify lean` plus confidence scores for what Lean cannot prove | coming |
 | [3:HL Terminal](https://phidung-hub.github.io/demos/#trading) | Hyperliquid perps terminal: blazing-fast connection, hotkey execution and a local AI companion, shown on a live account with the address hidden | [hyperliquid-terminal.mp4](media/hyperliquid-terminal.mp4) |
 
-The Agent OS video uses synthetic test sessions. Agent OS source is private.
+The WAT video uses synthetic test sessions. WAT source is private.

@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Phil · Agent OS</title>
+<title>Phil · WAT</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%94%A8%3C/text%3E%3C/svg%3E">
-<meta name="description" content="Video demos: Agent OS, its upcoming Lean verification pipeline, and a Hyperliquid trading terminal with a local MCP companion.">
+<meta name="description" content="Video demos: WAT, its upcoming Lean verification pipeline, and a Hyperliquid trading terminal with a local MCP companion.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,500;0,700;1,500&family=JetBrains+Mono:ital,wght@0,500;0,700;1,500&family=IBM+Plex+Mono:ital,wght@0,500;0,700;1,500&family=Fira+Code:wght@500;700&display=swap">
 <style>
@@ -118,29 +118,29 @@
 <div class="term">
   <header class="bar">
     <nav class="tabs" role="tablist" aria-label="Demos">
-      <button class="tab" role="tab" id="t-agent-os" aria-controls="v-agent-os" aria-selected="true"><span class="mk">●</span> 1:Agent OS</button>
+      <button class="tab" role="tab" id="t-wat" aria-controls="v-wat" aria-selected="true"><span class="mk">●</span> 1:WAT</button>
       <button class="tab" role="tab" id="t-lean" aria-controls="v-lean" aria-selected="false"><span class="mk">○</span> 2:Lean Verify <span class="soon">◆</span></button>
       <button class="tab" role="tab" id="t-trading" aria-controls="v-trading" aria-selected="false"><span class="mk">○</span> 3:HL Terminal</button>
     </nav>
   </header>
 
   <main>
-    <section class="view" id="v-agent-os" role="tabpanel" aria-labelledby="t-agent-os">
+    <section class="view" id="v-wat" role="tabpanel" aria-labelledby="t-wat">
       <div class="clip">
         <video src="media/agent-os.mp4" poster="media/agent-os-poster.jpg" controls muted loop playsinline preload="metadata"></video>
-        <div class="cap"><span>agent-os.mp4 <span class="m">83 s · 1080p</span></span><span>fleet · co-working · changes · live grep · decisions</span></div>
+        <div class="cap"><span>WAT demo <span class="m">83 s · 1080p</span></span><span>fleet · co-working · changes · live grep · decisions</span></div>
       </div>
-      <div class="graph" role="group" aria-label="Agent OS architecture graph">
+      <div class="graph" role="group" aria-label="WAT architecture graph">
         <svg viewBox="0 0 1000 300" id="aos-graph">
           <defs><marker id="ah2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 8 4 0 8z" fill="#6f7584"/></marker></defs>
         </svg>
       </div>
       <div class="detail" id="aos-detail" aria-live="polite"></div>
 
-      <div class="cmd"><span class="p">❯</span> agent-os <span class="a">--about</span></div>
-      <p class="out"><b>Agent OS</b> runs many <span class="m">Claude Code</span> and <span class="bl">Codex</span> sessions from one keyboard-driven <span class="c">WezTerm</span> screen. I use it daily.</p>
+      <div class="cmd"><span class="p">❯</span> wat <span class="a">--about</span></div>
+      <p class="out"><b>WAT</b> (What A Terminal, or Wezterm with an Agentic Tweak) runs many <span class="m">Claude Code</span> and <span class="bl">Codex</span> sessions from one keyboard-driven <span class="c">WezTerm</span> screen. I use it daily.</p>
 
-      <div class="cmd"><span class="p">❯</span> agent-os features</div>
+      <div class="cmd"><span class="p">❯</span> wat features</div>
       <div class="rows" role="list">
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">fleet</span><span class="tx">Tracks every session: plans, sub-agents, <span class="c">tokens/s</span>, context, CPU and RAM.</span><span class="sc"></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">co-working</span><span class="tx">Shows the messages sessions send each other, in <b>both</b> conversations.</span><span class="sc"></span></div>
@@ -175,11 +175,11 @@
       </div>
       <div class="detail" id="detail" aria-live="polite"></div>
 
-      <div class="cmd"><span class="p">❯</span> verify pipeline <span class="a">--results agent-os</span> <span class="y">◆ upcoming</span></div>
-      <p class="out">The pipeline takes a <b>program</b>, proves what <b>Lean 4</b> can model, and gives everything else a <span class="y">confidence score</span> from tests and cross-agent graders. Proved rows come from the real Agent OS run. The confidence numbers are <span class="y">illustrative</span> until the scorer ships.</p>
+      <div class="cmd"><span class="p">❯</span> verify pipeline <span class="a">--results wat</span> <span class="y">◆ upcoming</span></div>
+      <p class="out">The pipeline takes a <b>program</b>, proves what <b>Lean 4</b> can model, and gives everything else a <span class="y">confidence score</span> from tests and cross-agent graders. Proved rows come from the real WAT run. The confidence numbers are <span class="y">illustrative</span> until the scorer ships.</p>
       <div class="rows" role="list">
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">accounting</span><span class="tx">Usage maxima are idempotent, commutative, associative and monotone; work saturates at u64; fresh input never goes negative.</span><span class="sc g">proved · <span class="m">11</span></span></div>
-        <div class="row" role="listitem"><span class="g">✓</span><span class="id">plan</span><span class="tx">Agent OS acknowledges a live plan only when every parent and child step finishes. <span class="r">This proof caught a real bug.</span></span><span class="sc g">proved · <span class="m">5</span></span></div>
+        <div class="row" role="listitem"><span class="g">✓</span><span class="id">plan</span><span class="tx">WAT acknowledges a live plan only when every parent and child step finishes. <span class="r">This proof caught a real bug.</span></span><span class="sc g">proved · <span class="m">5</span></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">documents</span><span class="tx">Another session cannot update a stamped document; escaped text cannot open an HTML tag.</span><span class="sc g">proved · <span class="m">9</span></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">render cache</span><span class="tx">A hit reuses the exact output, retained bytes stay bounded, and selection and zoom skip Chrome and full decodes.</span><span class="sc g">proved · <span class="m">32</span></span></div>
         <div class="row" role="listitem"><span class="g">✓</span><span class="id">safety</span><span class="tx">Cleanup stays strictly inside its allowed root; a stale or closed session cannot authorize recovery; one failure gets at most one recovery attempt; drafts are never pasted over.</span><span class="sc g">proved · <span class="m">47</span></span></div>
@@ -240,7 +240,7 @@
 <script>
 
 var NODES=[
-  {id:'program',x:20,y:120,t:'program',k:'source + contracts',g:'›',c:'c',d:'The program under check. Agent OS feeds the sources and the contracts each one must keep: accounting, plans, documents, the render cache, and cleanup and recovery safety.'},
+  {id:'program',x:20,y:120,t:'program',k:'source + contracts',g:'›',c:'c',d:'The program under check. WAT feeds the sources and the contracts each one must keep: accounting, plans, documents, the render cache, and cleanup and recovery safety.'},
   {id:'model',x:190,y:120,t:'extract model',k:'per contract',g:'›',c:'c',d:'Each contract becomes an explicit mathematical model. Behaviour Lean cannot express, such as IO, parsers, Chrome or billing, goes down the confidence path instead.'},
   {id:'kernel',x:370,y:50,t:'Lean kernel',k:'v4.35.0 pinned',g:'✓',c:'g',d:'The pinned Lean 4.35.0 toolchain checks each model in a copied workspace with a private home, a 30 s limit and bounded output. No Mathlib and no model judge.'},
   {id:'audit',x:550,y:50,t:'axiom audit',k:'#print axioms',g:'✓',c:'g',d:'Every theorem must print a nonempty audit that uses only propext, Quot.sound or Classical.choice. The audit refuses sorry, admit, native_decide and custom axioms.'},
@@ -253,7 +253,7 @@ var NODES=[
 ];
 var AOS_NODES=[
   {id:'agents',x:20,y:50,t:'agents',k:'Claude Code · Codex',g:'›',c:'m',d:'Runs Claude Code and Codex sessions side by side and draws sub-agents and workflows as trees.'},
-  {id:'config',x:20,y:195,w:155,t:'configs',k:'plugin · Jev · setup',g:'›',c:'c',d:'Installs the Agent OS plugin, Jev prompt review and merged Claude Code and Codex settings, backing up every file it changes.'},
+  {id:'config',x:20,y:195,w:155,t:'configs',k:'plugin · Jev · setup',g:'›',c:'c',d:'Installs the WAT plugin, Jev prompt review and merged Claude Code and Codex settings, backing up every file it changes.'},
   {id:'hooks',x:215,y:50,t:'hooks',k:'tool events',g:'!',c:'y',d:'Reports every tool event and holds dangerous calls until you approve them.'},
   {id:'cli',x:215,y:195,t:'CLI protocol',k:'plan · doc · ask',g:'›',c:'c',d:'Lets agents publish plans and documents and ask you questions.'},
   {id:'hub',x:405,y:120,w:165,t:'hub',k:'state · usage ledger',g:'◆',c:'bl',d:'Keeps sessions, plans and documents, and counts each response once in the usage ledger.'},
@@ -304,11 +304,11 @@ function show(view,push){
     var v=document.getElementById(t.getAttribute('aria-controls')); v.hidden=!on;
     if(!on) v.querySelectorAll('video').forEach(function(x){x.pause();});
   });
-  document.title='Phil · '+({'agent-os':'Agent OS',lean:'Lean Verify',trading:'HL Terminal'}[view]||view);
+  document.title='Phil · '+({'wat':'WAT',lean:'Lean Verify',trading:'HL Terminal'}[view]||view);
   if(push){ try{ history.replaceState(null,'','#'+view); }catch(e){} }
   window.scrollTo({top:0,behavior:'instant'});
 }
-function fromHash(){ var h=location.hash.slice(1); return document.getElementById('v-'+h)&&h; }
+function fromHash(){ var h=location.hash.slice(1); if(h==='agent-os') h='wat'; return document.getElementById('v-'+h)&&h; }
 tabs.forEach(function(t,i){
   t.addEventListener('click',function(){show(viewOf(t),true);});
   t.addEventListener('keydown',function(e){
@@ -321,7 +321,7 @@ document.addEventListener('click',function(e){
   var id=a.getAttribute('href').slice(1); if(!document.getElementById('v-'+id)) return;
   e.preventDefault(); show(id,true);
 });
-var TABN={'agent-os':'1:Agent OS',lean:'2:Lean Verify',trading:'3:HL Terminal'};
+var TABN={'wat':'1:WAT',lean:'2:Lean Verify',trading:'3:HL Terminal'};
 var ITEMS=[].slice.call(document.querySelectorAll('.view .rows>.row,.view .out,.view .note,.view .cmd,.view .cap')).map(function(el){
   var id=el.querySelector&&el.querySelector('.id'), tx=el.classList.contains('row')?el.querySelector('.tx'):el;
   var body=el.classList.contains('cap')?[].map.call(el.children,function(c){return c.textContent;}).join(' · '):tx.textContent;
@@ -398,7 +398,7 @@ function para(d){
   scrollTo({top:d>0?document.documentElement.scrollHeight:0,behavior:'smooth'});
 }
 window.addEventListener('hashchange',function(){ var h=fromHash(); if(h) show(h,false); });
-show(fromHash()||'agent-os',false);
+show(fromHash()||'wat',false);
 
 </script>
 </body>
