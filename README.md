@@ -4,9 +4,9 @@
 
 | Tab | What it shows | Video |
 | --- | --- | --- |
-| [1:WAT](https://phidung-hub.github.io/demos/#wat) | Multi-agent control terminal (WezTerm + Ratatui): fleet, plans, decisions, HTML docs, logs and live grep | [WAT demo](media/agent-os.mp4) |
-| [2:HL Terminal](https://phidung-hub.github.io/demos/#trading) | Hyperliquid perps terminal: blazing-fast connection, hotkey execution and a local AI companion, shown on a live account with the address hidden | [hyperliquid-terminal.mp4](media/hyperliquid-terminal.mp4) |
+| [1:WAT](https://phidung-hub.github.io/demos/#wat) | Multi-agent control terminal (WezTerm + Ratatui): fleet, co-working, changes, live grep, decisions and the verify plugin | [wat.mp4](media/wat.mp4) |
+| [2:HL Terminal](https://phidung-hub.github.io/demos/#trading) | Hyperliquid perps terminal: hotkey execution and a local AI Co-pilot over MCP, shown with live market data and a demo account (no real orders are sent) | [hyperliquid-terminal.mp4](media/hyperliquid-terminal.mp4) |
 
 The WAT video uses synthetic test sessions. WAT source is private.
 
-[Lean Verify (WIP)](https://phidung-hub.github.io/demos/#lean) is a feature in development within WAT. The goal is to monitor model outputs and check them against preset goals, combining formal verification for precise contracts with tests and model-based evaluation for fuzzy outputs. Existing proofs cover specific WAT core contracts; goal monitoring and confidence scoring remain work in progress.
+[verify](https://phidung-hub.github.io/demos/#verify) is WAT's verification plugin, built along the lines of [How the Claude Code team thinks about verification](https://x.com/addyosmani/article/2122590683055993308): agents prove their work with real-binary end-to-end runs, cross-agent grading (Claude grades Codex, Codex grades Claude) and Lean 4 proofs of core contracts, with checks pinned out of reach of the changes they judge.
